@@ -20,7 +20,7 @@ export default function Landing() {
                         </p>
 
                         <SignedOut>
-                            <SignUpButton mode="modal" fallbackRedirectUrl={"/pages"}>
+                            <SignUpButton  mode="modal" fallbackRedirectUrl={"/pages"}>
                                 <Button className="cursor-pointer rounded-[5px] mt-5">
                                     Get Noto free
                                 </Button>

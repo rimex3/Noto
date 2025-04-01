@@ -6,7 +6,7 @@ import { Separator } from "./ui/separator";
 
 export default function Sidebar() {
     return (
-        <aside className="bg-[#F8F8F7] w-[248px] min-h-screen shadow-sidebar p-1">
+        <aside className="bg-[#F8F8F7] w-[300px] min-h-screen shadow-sidebar p-1">
             <div>
                 <UserAvatar />
                 <SidebarItem>

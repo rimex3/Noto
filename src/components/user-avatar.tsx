@@ -1,12 +1,15 @@
+'use client'
+
 import { currentUser } from "@clerk/nextjs/server"
 import { Button } from "./ui/button"
 import Image from "next/image"
 import { icons } from "@/constants/icons"
 import SidebarItem from "./sidebar-item"
 import NotoTooltip from "./noto-tooltip"
+import { useUser } from "@clerk/nextjs"
 
-export default async function UserAvatar() {
-    const user = await currentUser()
+export default function UserAvatar() {
+    const { user } = useUser()
 
     return (
         <SidebarItem className="my-[8px] " >

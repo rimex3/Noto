@@ -8,7 +8,8 @@ const nextConfig: NextConfig = {
         hostname: "img.clerk.com"
       }
     ]
-  }
+  },
+  reactStrictMode: false
 };
 
 export default nextConfig;
