@@ -1,5 +1,4 @@
 import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server'
-import { redirect } from 'next/navigation'
 
 export const isProtectedRoute = createRouteMatcher(['/pages(.*)'])
 
