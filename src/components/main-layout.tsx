@@ -1,8 +1,10 @@
+import Sidebar from "./sidebar";
 
 export default function MainLayout({ children }: Readonly<{ children: React.ReactNode }>) {
     return (
-        <div>
+        <main className="flex items-center">
+            <Sidebar />
             {children}
-        </div>
+        </main>
     )
 }

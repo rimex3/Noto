@@ -5,15 +5,8 @@
     {
       "idx": 0,
       "version": "7",
-      "when": 1743498827755,
-      "tag": "0000_premium_terrax",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "7",
-      "when": 1743499965765,
-      "tag": "0001_nostalgic_kate_bishop",
+      "when": 1743501203385,
+      "tag": "0000_swift_shaman",
       "breakpoints": true
     }
   ]

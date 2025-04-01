@@ -37,6 +37,9 @@
   --color-popover: var(--popover);
   --color-card-foreground: var(--card-foreground);
   --color-card: var(--card);
+
+  --shadow-sidebar: inset -1px 0px 0px 0px rgba(0, 0, 0, 0.024);
+
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -116,7 +119,12 @@
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
     @apply bg-background text-foreground;
+    font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont,
+      "Segoe UI Variable Display", "Segoe UI", Helvetica,
+      "Apple Color Emoji", Arial, sans-serif,
+      "Segoe UI Emoji", "Segoe UI Symbol";
   }
 }
