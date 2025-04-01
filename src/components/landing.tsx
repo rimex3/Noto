@@ -4,6 +4,8 @@ import { SignedIn, SignedOut, SignUpButton } from "@clerk/nextjs";
 import { Button } from "./ui/button";
 import Link from "next/link";
 
+
+
 export default function Landing() {
     return (
         <section className="min-h-screen">
@@ -19,15 +21,15 @@ export default function Landing() {
                             Welcome to Noto, your all-in-one platform for managing your notes and documents.
                         </p>
 
-                        <SignedOut>
-                            <SignUpButton  mode="modal" fallbackRedirectUrl={"/pages"}>
+                        <SignedOut >
+                            <SignUpButton mode="modal" fallbackRedirectUrl={"/pages"}>
                                 <Button className="cursor-pointer rounded-[5px] mt-5">
                                     Get Noto free
                                 </Button>
                             </SignUpButton>
                         </SignedOut>
 
-                        <SignedIn>
+                        <SignedIn >
                             <Link href="/pages" replace>
                                 <Button className="cursor-pointer rounded-[5px] mt-5">
                                     Get Noto free

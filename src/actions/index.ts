@@ -3,10 +3,10 @@
 import { db } from "@/db"
 import { pagesTable, usersTable } from "@/db/schema"
 import { type PageRequestType } from "@/types"
-import { auth, currentUser } from "@clerk/nextjs/server"
+import { currentUser } from "@clerk/nextjs/server"
 
 
-export const createUser = async ({ }) => {
+export const createUser = async () => {
     const user = await currentUser()
     try {
         await db.insert(usersTable).values({
@@ -14,7 +14,7 @@ export const createUser = async ({ }) => {
             email: user?.primaryEmailAddress?.emailAddress || "",
             name: user?.fullName || `${user?.firstName || "User-"}${user?.lastName || user?.id}`,
             avatar_url: user?.hasImage ? user?.imageUrl : ""
-        })
+        }).onConflictDoNothing()
     } catch (err: any) {
         throw new Error(err)
     }

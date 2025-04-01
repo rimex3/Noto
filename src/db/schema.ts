@@ -4,6 +4,7 @@ export const pageTypeEnum = pgEnum("page_type", ["empty", "tasks"]);
 
 export const usersTable = pgTable("users", {
     id: uuid("id").primaryKey().defaultRandom(),
+    auth_id: varchar("auth_id", { length: 255 }).notNull(),
     name: varchar("name", { length: 255 }).notNull(),
     email: varchar("email", { length: 255 }).notNull().unique(),
     avatar_url: varchar("avatar_url", { length: 500 }),
