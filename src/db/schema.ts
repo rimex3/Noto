@@ -17,4 +17,6 @@ export const pagesTable = pgTable("pages", {
     title: varchar("title", { length: 255 }).notNull(),
     description: varchar("description", { length: 255 }).notNull(),
     type: pageTypeEnum("type").notNull().default("empty"),
+    created_at: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+    updated_at: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
 });
