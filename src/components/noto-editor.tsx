@@ -4,7 +4,6 @@ import { useCreateBlockNote } from "@blocknote/react";
 import { BlockNoteView } from "@blocknote/mantine";
 import "@blocknote/mantine/style.css";
 import { Dispatch, SetStateAction, useEffect } from "react";
-import { useDocuments } from "@/hooks/use-documents";
 import { useDebounce } from "@/hooks/use-debounce";
 
 export type BlockType = {
@@ -22,16 +21,17 @@ export type BlockType = {
 type NotoEditorProps = {
     autoFocus?: boolean;
     initialContent?: BlockType[];
+    setDocuments: Dispatch<SetStateAction<BlockType[]>>
 } & {
     setIsEditorFocused: Dispatch<SetStateAction<boolean>>;
 };
 
-export default function NotoEditor({ autoFocus, setIsEditorFocused, initialContent }: NotoEditorProps) {
+export default function NotoEditor({ autoFocus, setIsEditorFocused, initialContent, setDocuments }: NotoEditorProps) {
     const editor = useCreateBlockNote({
         initialContent: initialContent as any
     });
 
-    const setDocuments = useDocuments(state => state.setDocuments);
+
 
     useEffect(() => {
         if (autoFocus && editor) {
@@ -60,6 +60,6 @@ export default function NotoEditor({ autoFocus, setIsEditorFocused, initialConte
         title="Noto Editor"
         autoFocus={autoFocus}
         onBlur={() => setIsEditorFocused(false)}
-        
+
     />;
 }

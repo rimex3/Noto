@@ -13,7 +13,6 @@ import { useDocuments } from "@/hooks/use-documents";
 
 type NotoPageTitleEditorProps = {
   title: string
-} & {
   setIsEnabled?: Dispatch<SetStateAction<boolean>>
   isEditorFocused?: boolean
 }

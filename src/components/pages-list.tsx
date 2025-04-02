@@ -9,7 +9,7 @@ export default async function PagesList() {
 
 
     return (
-        <div>
+        <div className="flex flex-col space-y-1">
             {pages.map((page) => <NotoPage key={page.id} {...page as any} />)}
         </div>
     )

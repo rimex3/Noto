@@ -1,8 +1,12 @@
+'use client'
+
 import { icons } from "@/constants/icons"
 import NotoTooltip from "./noto-tooltip"
 import SidebarItem from "./sidebar-item"
 import { type PageType } from "@/types"
 import Link from "next/link"
+import { cn } from "@/lib/utils"
+import { usePathname } from "next/navigation"
 
 export interface NotoPageProps extends PageType {
   empty?: boolean
@@ -10,9 +14,10 @@ export interface NotoPageProps extends PageType {
 
 
 export default function NotoPage({ id, title }: NotoPageProps) {
+  const pathname = usePathname()
   return (
     <Link href={`/pages/${id}`}>
-      <SidebarItem className="hover:!text-[#5E5C57] text-[#91918E] text-[13px] font-semibold px-2 group" >
+      <SidebarItem className={cn("hover:!text-[#5E5C57] text-[#91918E] text-[13px] font-semibold px-2 group", pathname.includes(id!) ? "bg-[#F0F0EF] text-[#5E5C57]" : "")} >
         <div className="flex items-center space-x-2">
           <div>
             {icons.pageEmpty}
