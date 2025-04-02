@@ -7,8 +7,8 @@ import { useMutation } from "@tanstack/react-query";
 import { updatePage } from "@/actions";
 import { useParams } from "next/navigation";
 import { useIsSaving } from "@/hooks/use-is-saving";
-import { useUser } from "@clerk/nextjs";
 import { useDocuments } from "@/hooks/use-documents";
+import { useCoverImage } from "@/hooks/use-cover-image";
 
 
 type NotoPageTitleEditorProps = {
@@ -19,20 +19,20 @@ type NotoPageTitleEditorProps = {
 
 export default function NotoPageTitleEditor({ title }: NotoPageTitleEditorProps) {
   const { pageId } = useParams()
-  const { user } = useUser()
   const [currentTitle, setCurrentTitle] = useState("")
   const { mutateAsync } = useMutation({
     mutationFn: updatePage,
   })
+
+  const coverImage = useCoverImage()
   const setTitle = useDocuments(state => state.setTitle)
   const setIsSaving = useIsSaving(state => state.setIsSaving)
-  console.log("title", user?.id)
   const debouncedOnChange = useDebounce((title) => {
     setCurrentTitle(title)
     setTitle(title)
   }, 300);
 
-  console.log(pageId?.[0])
+
 
   const handleMutate = useCallback(async () => {
     setIsSaving(true)
@@ -61,7 +61,7 @@ export default function NotoPageTitleEditor({ title }: NotoPageTitleEditorProps)
             Add icon
           </div>
         </div>
-        <div className="hover:bg-[#f3f3f3] transition-colors cursor-pointer rounded-[6px] w-fit py-1 px-2 flex items-center ">
+        <div onClick={coverImage.onOpen} className="hover:bg-[#f3f3f3] transition-colors cursor-pointer rounded-[6px] w-fit py-1 px-2 flex items-center ">
           <div>
             {icons.image}
 

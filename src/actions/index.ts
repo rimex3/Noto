@@ -24,14 +24,23 @@ export const createPage = async ({ title, content, type, auth_id, id, currentPag
     }
 };
 
-export const updatePage = async ({ id, title, content, currentPageId }: { id: string; title?: string; content?: BlockType[]; currentPageId?: string }) => {
+export const updatePage = async ({ id, title, content, currentPageId, coverUrl, icon }: {
+    id: string,
+    title?: string,
+    content?: BlockType[],
+    currentPageId?: string,
+    coverUrl?: string,
+    icon?: string
+}) => {
     try {
         const data = await db
             .update(pagesTable)
             .set({
                 title,
                 content,
-                updated_at: new Date()
+                updated_at: new Date(),
+                coverUrl,
+                icon
             })
             .where(eq(pagesTable.id, id))
             .returning({ id: pagesTable.id });

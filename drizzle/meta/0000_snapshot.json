@@ -1,5 +1,5 @@
 {
-  "id": "17a86a7d-1599-4eea-a6e5-1b4ffa81ee5f",
+  "id": "f08e9823-bb04-42d8-8eb5-6f8a7e9e1c7c",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -15,20 +15,14 @@
           "notNull": true,
           "default": "gen_random_uuid()"
         },
-        "user_id": {
-          "name": "user_id",
-          "type": "uuid",
+        "auth_id": {
+          "name": "auth_id",
+          "type": "varchar(255)",
           "primaryKey": false,
           "notNull": true
         },
         "title": {
           "name": "title",
-          "type": "varchar(255)",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "description": {
-          "name": "description",
           "type": "varchar(255)",
           "primaryKey": false,
           "notNull": true
@@ -40,6 +34,24 @@
           "primaryKey": false,
           "notNull": true,
           "default": "'empty'"
+        },
+        "content": {
+          "name": "content",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "cover_url": {
+          "name": "cover_url",
+          "type": "varchar(500)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "emoji": {
+          "name": "emoji",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
         },
         "created_at": {
           "name": "created_at",
@@ -58,15 +70,15 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "pages_user_id_users_id_fk": {
-          "name": "pages_user_id_users_id_fk",
+        "pages_auth_id_users_auth_id_fk": {
+          "name": "pages_auth_id_users_auth_id_fk",
           "tableFrom": "pages",
           "tableTo": "users",
           "columnsFrom": [
-            "user_id"
+            "auth_id"
           ],
           "columnsTo": [
-            "id"
+            "auth_id"
           ],
           "onDelete": "cascade",
           "onUpdate": "no action"
@@ -82,12 +94,11 @@
       "name": "users",
       "schema": "",
       "columns": {
-        "id": {
-          "name": "id",
-          "type": "uuid",
-          "primaryKey": true,
-          "notNull": true,
-          "default": "gen_random_uuid()"
+        "auth_id": {
+          "name": "auth_id",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true
         },
         "name": {
           "name": "name",
@@ -126,6 +137,13 @@
       "foreignKeys": {},
       "compositePrimaryKeys": {},
       "uniqueConstraints": {
+        "users_auth_id_unique": {
+          "name": "users_auth_id_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "auth_id"
+          ]
+        },
         "users_email_unique": {
           "name": "users_email_unique",
           "nullsNotDistinct": false,

@@ -41,19 +41,18 @@ export default function NotoPageContent({ pageId, page }: { pageId: string, page
         }
     }, [documents])
     return (
-        <div className="pb-[30vh] w-[600px]">
-            <div>
-                cover
-            </div>
-            <div>
-                <NotoPageTitleEditor setIsEnabled={setIsEnabled} isEditorFocused={isEditorFocused} title={page.title!} />
-                <div className="mt-5">
-                    <DynamicNotoEditor
-                        autoFocus={isEditorFocused}
-                        setIsEditorFocused={setIsEditorFocused}
-                        initialContent={page.content}
-                        setDocuments={setDocuments}
-                    />
+        <div className="flex flex-col">
+            <div className="pb-[30vh] w-[600px]">
+                <div>
+                    <NotoPageTitleEditor setIsEnabled={setIsEnabled} isEditorFocused={isEditorFocused} title={page?.title!} />
+                    <div className="mt-5">
+                        <DynamicNotoEditor
+                            autoFocus={isEditorFocused}
+                            setIsEditorFocused={setIsEditorFocused}
+                            initialContent={page.content}
+                            setDocuments={setDocuments}
+                        />
+                    </div>
                 </div>
             </div>
         </div>
