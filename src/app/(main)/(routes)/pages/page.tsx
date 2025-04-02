@@ -13,14 +13,5 @@ export default async function page() {
         avatar_url: user?.hasImage ? user?.imageUrl : ""
     }).onConflictDoNothing()
 
-    return (
-        <div className="w-full">
-            <div>
-                <NotoPageHeader />
-                <div className="w-full flex items-start justify-center mt-28">
-                    <NotoPageContent />
-                </div>
-            </div>
-        </div>
-    )
+    return null
 }

@@ -1,0 +1,1 @@
+ALTER TABLE "pages" ALTER COLUMN "user_id" SET DATA TYPE varchar(255);

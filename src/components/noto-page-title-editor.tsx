@@ -7,13 +7,14 @@ import { useDebounce } from "@/hooks/use-debounce";
 
 
 type NotoPageTitleEditorProps = {
+  title: string
   setTitle?: (value: string) => void
 } & {
   setIsEnabled?: Dispatch<SetStateAction<boolean>>
   isEditorFocused?: boolean
 }
 
-export default function NotoPageTitleEditor({ setTitle, setIsEnabled }: NotoPageTitleEditorProps) {
+export default function NotoPageTitleEditor({ setTitle, title }: NotoPageTitleEditorProps) {
 
 
   const debouncedOnChange = useDebounce((title) => {
@@ -51,7 +52,7 @@ export default function NotoPageTitleEditor({ setTitle, setIsEnabled }: NotoPage
           const value = e.target.value
           debouncedOnChange(value)
         }}
-
+        defaultValue={title || ""}
         placeholder="New Page"
       />
     </div>

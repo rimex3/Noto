@@ -3,10 +3,11 @@
 import { useState } from "react"
 import { Input } from "./ui/input"
 import { useKey } from "@/hooks/use-key"
+import { useIsSaving } from "@/hooks/use-is-saving"
 
 export default function NotoPageHeader() {
     const [isEditable, setIsEditable] = useState(false)
-
+    const isSaving = useIsSaving(state => state.isSaving)
     useKey({ keys: "Enter", handler: () => setIsEditable(false) });
 
     return (
@@ -19,6 +20,12 @@ export default function NotoPageHeader() {
                         Page
                     </div>
             }
+
+            <div className="text-[#9E9A97] px-7">
+                {
+                    isSaving ? "Saving..." : "Saved"
+                }
+            </div>
         </div>
     )
 }
