@@ -24,7 +24,7 @@ export default function NotoPageHeader({ page }: { page: PageType }) {
 
             <div className="text-[#9E9A97] px-7">
                 {
-                    isSaving ? "Saving..." : "Saved"
+                    isSaving ? "saving..." : "saved"
                 }
             </div>
         </div>
