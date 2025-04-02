@@ -9,24 +9,28 @@ import { useMutation } from "@tanstack/react-query"
 import { createPage } from "@/actions"
 import { useCallback } from "react"
 import { toast } from "sonner"
+import { useParams, useRouter } from "next/navigation"
 
 export default function UserAvatar() {
+    const router = useRouter()
     const { user } = useUser()
+    const { pageId }: { pageId: string[] } = useParams()
 
     const { mutateAsync } = useMutation({
         mutationFn: createPage,
-        onSuccess: () => {
+        onSuccess: (data) => {
+            router.push(`/pages/${data.id}`)
             toast.success("Page has been created")
-
         }
     })
 
     const handleMutate = useCallback(async () => {
         await mutateAsync({
             title: 'New page',
-            auth_id: user?.id!
+            auth_id: user?.id!,
+            currentPageId: pageId?.[0]
         })
-    }, [user])
+    }, [user, mutateAsync, pageId])
 
     return (
         <SidebarItem className="my-[8px] " >

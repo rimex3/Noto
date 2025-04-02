@@ -15,7 +15,7 @@ export type BlockType = {
         backgroundColor: string;
         textAlignment: string;
     };
-    content: { type: "text"; text: string; styles: {} }[];
+    content: { type: "text"; text: string; styles: any }[];
     children: BlockType[];
 };
 

@@ -1,36 +1,45 @@
+
 'use server'
 
+import { BlockType } from "@/components/noto-editor";
 import { db } from "@/db"
-import { pagesTable, usersTable } from "@/db/schema"
+import { pagesTable } from "@/db/schema"
 import { type PageType } from "@/types"
+import { eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 
 
-// export const createUser = async ({ }) => {
-//     const user = await currentUser()
-//     try {
-//         await db.insert(usersTable).values({
-//             id: user?.id,
-//             email: user?.primaryEmailAddress?.emailAddress || "",
-//             name: user?.fullName || `${user?.firstName || "User-"}${user?.lastName || user?.id}`,
-//             avatar_url: user?.hasImage ? user?.imageUrl : ""
-//         }).onConflictDoNothing()
-//     } catch (err: any) {
-//         throw new Error(err)
-//     }
-// }
-
-export const createPage = async ({ title, content, type, auth_id, id }: PageType) => {
-    console.log('serv', auth_id)
+export const createPage = async ({ title, content, type, auth_id, id, currentPageId }: PageType & { currentPageId?: string }) => {
     try {
-        await db
+        const data = await db
             .insert(pagesTable)
-            .values({ id: id!, auth_id, title: title!, content, type })
-            .onConflictDoUpdate({
-                target: [pagesTable.id],
-                set: { title, content },
-            });
-        revalidatePath("/pages")
+            .values({ id: id!, auth_id: auth_id!, title: title!, content, type })
+            .returning({ id: pagesTable.id });
+
+        revalidatePath("/pages");
+        if (currentPageId) revalidatePath(`/pages/${currentPageId}`);
+        return { id: data[0].id };
+    } catch (err: any) {
+        throw new Error(err);
+    }
+};
+
+export const updatePage = async ({ id, title, content, currentPageId }: { id: string; title?: string; content?: BlockType[]; currentPageId?: string }) => {
+    try {
+        const data = await db
+            .update(pagesTable)
+            .set({
+                title,
+                content,
+                updated_at: new Date()
+            })
+            .where(eq(pagesTable.id, id))
+            .returning({ id: pagesTable.id });
+
+        revalidatePath("/pages");
+        if (currentPageId) revalidatePath(`/pages/${currentPageId}`);
+
+        return { id: data[0].id };
     } catch (err: any) {
         throw new Error(err);
     }

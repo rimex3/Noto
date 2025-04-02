@@ -1,28 +1,54 @@
 'use client'
 import { icons } from "@/constants/icons";
 import { Input } from "./ui/input";
-import { Dispatch, SetStateAction, useCallback, useEffect, useRef } from "react";
-import { useKey } from "@/hooks/use-key";
+import { Dispatch, SetStateAction, useCallback, useEffect, useState } from "react";
 import { useDebounce } from "@/hooks/use-debounce";
+import { useMutation } from "@tanstack/react-query";
+import { updatePage } from "@/actions";
+import { useParams } from "next/navigation";
+import { useIsSaving } from "@/hooks/use-is-saving";
+import { useUser } from "@clerk/nextjs";
+import { useDocuments } from "@/hooks/use-documents";
 
 
 type NotoPageTitleEditorProps = {
   title: string
-  setTitle?: (value: string) => void
 } & {
   setIsEnabled?: Dispatch<SetStateAction<boolean>>
   isEditorFocused?: boolean
 }
 
-export default function NotoPageTitleEditor({ setTitle, title }: NotoPageTitleEditorProps) {
-
-
+export default function NotoPageTitleEditor({ title }: NotoPageTitleEditorProps) {
+  const { pageId } = useParams()
+  const { user } = useUser()
+  const [currentTitle, setCurrentTitle] = useState("")
+  const { mutateAsync } = useMutation({
+    mutationFn: updatePage,
+  })
+  const setTitle = useDocuments(state => state.setTitle)
+  const setIsSaving = useIsSaving(state => state.setIsSaving)
+  console.log("title", user?.id)
   const debouncedOnChange = useDebounce((title) => {
-    setTitle?.(title)
+    setCurrentTitle(title)
+    setTitle(title)
   }, 300);
 
+  console.log(pageId?.[0])
 
+  const handleMutate = useCallback(async () => {
+    setIsSaving(true)
+    await mutateAsync({
+      id: pageId?.[0]!,
+      title: currentTitle,
+    })
+    setIsSaving(false)
+  }, [currentTitle, pageId, setIsSaving, mutateAsync])
 
+  useEffect(() => {
+    if (currentTitle !== "") {
+      handleMutate()
+    }
+  }, [currentTitle])
 
   return (
     <div className="group w-fit h-fit">
@@ -52,7 +78,7 @@ export default function NotoPageTitleEditor({ setTitle, title }: NotoPageTitleEd
           const value = e.target.value
           debouncedOnChange(value)
         }}
-        defaultValue={title || ""}
+        defaultValue={title}
         placeholder="New Page"
       />
     </div>

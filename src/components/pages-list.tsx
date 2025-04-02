@@ -1,12 +1,11 @@
-import { db } from "@/db";
 import NotoPage from "./noto-page";
 import { auth } from "@clerk/nextjs/server";
+import { getPage } from "@/utils/getPages";
+
 
 export default async function PagesList() {
     const user = await auth()
-    const pages = await db.query.pagesTable.findMany({
-        where: (pages, { eq }) => eq(pages.auth_id, user.userId),
-    })
+    const pages = await getPage(user.userId!)
 
 
     return (

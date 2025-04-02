@@ -5,7 +5,7 @@ import { type PageType } from "@/types"
 import Link from "next/link"
 
 export interface NotoPageProps extends PageType {
-
+  empty?: boolean
 }
 
 
