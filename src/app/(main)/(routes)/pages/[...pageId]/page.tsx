@@ -22,7 +22,11 @@ export default async function page({ params }: { params: Promise<{ pageId: strin
                         <img src={page?.coverUrl!} loading="lazy" alt="cover" className="w-full h-full object-cover object-center" />
                     </div>
                 }
-                <div className={cn("w-full flex items-start justify-center ", page?.coverUrl ? "mt-5" : "mt-28")}>
+
+                <div className={cn("relative w-fit mx-auto flex items-start justify-center ", page?.coverUrl ? "mt-5" : "mt-28")}>
+                    <div className="absolute text-[5rem] -left-[165px] -top-[90px] select-none">
+                        {page?.icon}
+                    </div>
                     <NotoPageContent pageId={pageId} page={page as any} userId={user?.id!} />
                 </div>
             </div>

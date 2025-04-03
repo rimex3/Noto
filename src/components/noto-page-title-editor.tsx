@@ -19,13 +19,13 @@ type NotoPageTitleEditorProps = {
 }
 
 export default function NotoPageTitleEditor({ title }: NotoPageTitleEditorProps) {
-  const [currentTitle, setCurrentTitle] = useState("")
-  const [currentEmoji, setCurrentEmoji] = useState("")
+  const [currentTitle, setCurrentTitle] = useState<string>()
+  const [currentEmoji, setCurrentEmoji] = useState<string>()
   const { pageId } = useParams()
   const { mutateAsync } = useMutation({
     mutationFn: updatePage,
   })
-  console.log(currentEmoji)
+
   const coverImage = useCoverImage()
   const setTitle = useDocuments(state => state.setTitle)
   const setIsSaving = useIsSaving(state => state.setIsSaving)
@@ -38,10 +38,11 @@ export default function NotoPageTitleEditor({ title }: NotoPageTitleEditorProps)
     setIsSaving(true)
     await mutateAsync({
       id: pageId?.[0]!,
-      title: currentTitle,
+      title: currentTitle || title,
+      icon: currentEmoji
     })
     setIsSaving(false)
-  }, [currentTitle, pageId, setIsSaving, mutateAsync])
+  }, [currentTitle, pageId, setIsSaving, mutateAsync, currentEmoji])
 
 
   const handleEmojiChange = (emoji: string) => {
@@ -49,10 +50,10 @@ export default function NotoPageTitleEditor({ title }: NotoPageTitleEditorProps)
   }
 
   useEffect(() => {
-    if (currentTitle !== "") {
+    if (currentTitle || currentEmoji) {
       handleMutate()
     }
-  }, [currentTitle])
+  }, [currentTitle, currentEmoji])
 
   return (
     <div className="group w-fit h-fit">
