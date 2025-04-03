@@ -3,19 +3,21 @@ import { Popover, PopoverContent, PopoverTrigger } from './ui/popover';
 import { EmojiStyle, Theme } from 'emoji-picker-react';
 
 interface IconPickerProps {
+    onOpen?: () => void
     onEmojiChange: (icon: string) => void;
     children: React.ReactNode;
     asChild?: boolean;
+    open?: boolean
 }
 
 
 const LazyEmojiPicker = lazy(() => import('emoji-picker-react'));
 
 
-const IconPicker = memo(({ children, onEmojiChange, asChild }: IconPickerProps) => {
+const IconPicker = memo(({ children, onEmojiChange, asChild, open, onOpen }: IconPickerProps) => {
 
     return (
-        <Popover>
+        <Popover open={open} onOpenChange={onOpen}>
             <PopoverTrigger asChild={asChild}>
                 {children}
             </PopoverTrigger>

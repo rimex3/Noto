@@ -44,7 +44,7 @@ export default function NotoPageContent({ pageId, page }: { pageId: string, page
         <div className="flex flex-col">
             <div className="pb-[30vh] w-[600px]">
                 <div>
-                    <NotoPageTitleEditor setIsEnabled={setIsEnabled} isEditorFocused={isEditorFocused} title={page?.title!} />
+                    <NotoPageTitleEditor setIsEnabled={setIsEnabled} isEditorFocused={isEditorFocused} page={page} />
                     <div className="mt-5">
                         <DynamicNotoEditor
                             autoFocus={isEditorFocused}

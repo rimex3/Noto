@@ -9,16 +9,18 @@ import { useParams } from "next/navigation";
 import { useIsSaving } from "@/hooks/use-is-saving";
 import { useDocuments } from "@/hooks/use-documents";
 import { useCoverImage } from "@/hooks/use-cover-image";
+import { PageType } from "@/types";
 import IconPicker from "./icon-picker";
+import { cn } from "@/lib/utils";
 
 
 type NotoPageTitleEditorProps = {
-  title: string
+  page: PageType
   setIsEnabled?: Dispatch<SetStateAction<boolean>>
   isEditorFocused?: boolean
 }
 
-export default function NotoPageTitleEditor({ title }: NotoPageTitleEditorProps) {
+export default function NotoPageTitleEditor({ page }: NotoPageTitleEditorProps) {
   const [currentTitle, setCurrentTitle] = useState<string>()
   const [currentEmoji, setCurrentEmoji] = useState<string>()
   const { pageId } = useParams()
@@ -38,7 +40,7 @@ export default function NotoPageTitleEditor({ title }: NotoPageTitleEditorProps)
     setIsSaving(true)
     await mutateAsync({
       id: pageId?.[0]!,
-      title: currentTitle || title,
+      title: currentTitle || page.title,
       icon: currentEmoji
     })
     setIsSaving(false)
@@ -56,36 +58,44 @@ export default function NotoPageTitleEditor({ title }: NotoPageTitleEditorProps)
   }, [currentTitle, currentEmoji])
 
   return (
-    <div className="group w-fit h-fit">
-      <div className=" items-center mb-  opacity-0 flex group-hover:opacity-100 transition-all">
-        <IconPicker asChild onEmojiChange={handleEmojiChange}>
-          <div className="hover:bg-[#f3f3f3] transition-colors cursor-pointer rounded-[6px] w-fit py-1 px-2 flex items-center ">
-            <div>
-              {icons.emoji}
+    <div className={cn("group w-fit h-fit", page.icon && page.coverUrl ? "mt-8" : "")}>
+      <div className={" items-center  opacity-0 flex group-hover:opacity-100 transition-all"}>
+        {
+          !page.icon && (
+            <IconPicker asChild onEmojiChange={handleEmojiChange}>
+              <div className="hover:bg-[#f3f3f3] transition-colors cursor-pointer rounded-[6px] w-fit py-1 px-2 flex items-center ">
+                <div>
+                  {icons.emoji}
 
-            </div>
-            <div className="text-[#9B9A97] text-[14px]">
-              Add icon
-            </div>
-          </div>
-        </IconPicker>
-        <div onClick={coverImage.onOpen} className="hover:bg-[#f3f3f3] transition-colors cursor-pointer rounded-[6px] w-fit py-1 px-2 flex items-center ">
-          <div>
-            {icons.image}
+                </div>
+                <div className="text-[#9B9A97] text-[14px]">
+                  Add icon
+                </div>
+              </div>
+            </IconPicker>
+          )
+        }
+        {
+          !page.coverUrl && (
+            <div onClick={coverImage.onOpen} className="hover:bg-[#f3f3f3] transition-colors cursor-pointer rounded-[6px] w-fit py-1 px-2 flex items-center ">
+              <div>
+                {icons.image}
 
-          </div>
-          <div className="text-[#9B9A97] text-[14px]">
-            Add cover
-          </div>
-        </div>
+              </div>
+              <div className="text-[#9B9A97] text-[14px]">
+                Add cover
+              </div>
+            </div>
+          )
+        }
       </div>
       <Input
-        className="border-none shadow-none focus:!outline-none focus:!ring-0 placeholder:text-[#E1E1E0] placeholder:text-[40px] placeholder:font-bold h-[50px] !text-[40px] !text-[#37352F] font-bold p-0 !rounded-none group"
+        className="border-none shadow-none focus:!outline-none focus:!ring-0 placeholder:text-[#E1E1E0] placeholder:text-[40px] placeholder:font-bold h-[80px] !text-[40px] !text-[#37352F] font-bold p-0 !rounded-none group"
         onChange={(e) => {
           const value = e.target.value
           debouncedOnChange(value)
         }}
-        defaultValue={title}
+        defaultValue={page.title}
         placeholder="New Page"
       />
     </div>

@@ -7,6 +7,8 @@ export type PageType = {
     title?: string,
     content?: BlockType[]
     type?: 'empty' | 'tasks'
+    icon: string
+    coverUrl: string
     create_at?: Date
     updated_at?: Date
 } 

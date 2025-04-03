@@ -1,9 +1,11 @@
 
 import NotoPageContent from "@/components/noto-page-content";
 import NotoPageHeader from "@/components/noto-page-header";
+import NotoPageIcon from "@/components/noto-page-icon";
 import { cn } from "@/lib/utils";
 import { getPageById } from "@/utils/getPageById";
 import { currentUser } from "@clerk/nextjs/server";
+import Image from "next/image";
 
 
 
@@ -18,15 +20,13 @@ export default async function page({ params }: { params: Promise<{ pageId: strin
             <div>
                 <NotoPageHeader page={page as any} />
                 {
-                    page?.coverUrl && <div className="w-full h-[30vh] overflow-hidden">
-                        <img src={page?.coverUrl!} loading="lazy" alt="cover" className="w-full h-full object-cover object-center" />
+                    page?.coverUrl && <div className="w-full h-[30vh] overflow-hidden ">
+                        <Image src={page?.coverUrl!} alt="cover" priority width={1000} height={1000} className="w-full h-full object-cover object-center" />
                     </div>
                 }
 
                 <div className={cn("relative w-fit mx-auto flex items-start justify-center ", page?.coverUrl ? "mt-5" : "mt-28")}>
-                    <div className="absolute text-[5rem] -left-[165px] -top-[90px] select-none">
-                        {page?.icon}
-                    </div>
+                    <NotoPageIcon page={page as any} />
                     <NotoPageContent pageId={pageId} page={page as any} userId={user?.id!} />
                 </div>
             </div>
