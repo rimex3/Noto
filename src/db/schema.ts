@@ -1,4 +1,5 @@
-import { pgTable, uuid, varchar, timestamp, pgEnum, jsonb } from "drizzle-orm/pg-core";
+import { foreignKey } from "drizzle-orm/pg-core";
+import { pgTable, uuid, varchar, timestamp, pgEnum, jsonb, AnyPgColumn } from "drizzle-orm/pg-core";
 
 export const pageTypeEnum = pgEnum("page_type", ["empty", "tasks"]);
 
@@ -15,10 +16,19 @@ export const pagesTable = pgTable("pages", {
     id: uuid("id").primaryKey().defaultRandom(),
     auth_id: varchar("auth_id", { length: 255 }).notNull().references(() => usersTable.auth_id, { onDelete: "cascade" }),
     title: varchar("title", { length: 255 }).notNull(),
+    parent_id: uuid("parent_id").references((): AnyPgColumn => pagesTable.id, { onDelete: "cascade" }),
     type: pageTypeEnum("type").notNull().default("empty"),
     content: jsonb("content"),
     coverUrl: varchar("cover_url", { length: 500 }),
     icon: varchar("emoji", { length: 255 }),
     created_at: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
     updated_at: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
+}, (table) => {
+    return {
+        parentReference: foreignKey({
+            columns: [table.parent_id],
+            foreignColumns: [table.id],
+            name: "pages_parent_id_fkey",
+        }),
+    };
 });

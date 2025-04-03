@@ -8,6 +8,20 @@
       "when": 1743590531206,
       "tag": "0000_colossal_blade",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1743684708473,
+      "tag": "0001_wet_tana_nile",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1743685110144,
+      "tag": "0002_chilly_zaran",
+      "breakpoints": true
     }
   ]
 }
