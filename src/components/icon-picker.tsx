@@ -1,4 +1,4 @@
-import React, { lazy, memo, Suspense, useState } from 'react';
+import React, { lazy, memo } from 'react';
 import { Popover, PopoverContent, PopoverTrigger } from './ui/popover';
 import { EmojiStyle, Theme } from 'emoji-picker-react';
 
@@ -31,5 +31,7 @@ const IconPicker = memo(({ children, onEmojiChange, asChild }: IconPickerProps) 
         </Popover>
     );
 });
+
+IconPicker.displayName = 'IconPicker';
 
 export default IconPicker;
