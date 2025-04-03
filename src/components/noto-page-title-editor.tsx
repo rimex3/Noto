@@ -9,6 +9,7 @@ import { useParams } from "next/navigation";
 import { useIsSaving } from "@/hooks/use-is-saving";
 import { useDocuments } from "@/hooks/use-documents";
 import { useCoverImage } from "@/hooks/use-cover-image";
+import IconPicker from "./icon-picker";
 
 
 type NotoPageTitleEditorProps = {
@@ -18,12 +19,13 @@ type NotoPageTitleEditorProps = {
 }
 
 export default function NotoPageTitleEditor({ title }: NotoPageTitleEditorProps) {
-  const { pageId } = useParams()
   const [currentTitle, setCurrentTitle] = useState("")
+  const [currentEmoji, setCurrentEmoji] = useState("")
+  const { pageId } = useParams()
   const { mutateAsync } = useMutation({
     mutationFn: updatePage,
   })
-
+  console.log(currentEmoji)
   const coverImage = useCoverImage()
   const setTitle = useDocuments(state => state.setTitle)
   const setIsSaving = useIsSaving(state => state.setIsSaving)
@@ -31,8 +33,6 @@ export default function NotoPageTitleEditor({ title }: NotoPageTitleEditorProps)
     setCurrentTitle(title)
     setTitle(title)
   }, 300);
-
-
 
   const handleMutate = useCallback(async () => {
     setIsSaving(true)
@@ -43,6 +43,11 @@ export default function NotoPageTitleEditor({ title }: NotoPageTitleEditorProps)
     setIsSaving(false)
   }, [currentTitle, pageId, setIsSaving, mutateAsync])
 
+
+  const handleEmojiChange = (emoji: string) => {
+    setCurrentEmoji(emoji)
+  }
+
   useEffect(() => {
     if (currentTitle !== "") {
       handleMutate()
@@ -51,16 +56,18 @@ export default function NotoPageTitleEditor({ title }: NotoPageTitleEditorProps)
 
   return (
     <div className="group w-fit h-fit">
-      <div className=" items-center mb-4  opacity-0 flex group-hover:opacity-100 transition-all">
-        <div className="hover:bg-[#f3f3f3] transition-colors cursor-pointer rounded-[6px] w-fit py-1 px-2 flex items-center ">
-          <div>
-            {icons.emoji}
+      <div className=" items-center mb-  opacity-0 flex group-hover:opacity-100 transition-all">
+        <IconPicker asChild onEmojiChange={handleEmojiChange}>
+          <div className="hover:bg-[#f3f3f3] transition-colors cursor-pointer rounded-[6px] w-fit py-1 px-2 flex items-center ">
+            <div>
+              {icons.emoji}
 
+            </div>
+            <div className="text-[#9B9A97] text-[14px]">
+              Add icon
+            </div>
           </div>
-          <div className="text-[#9B9A97] text-[14px]">
-            Add icon
-          </div>
-        </div>
+        </IconPicker>
         <div onClick={coverImage.onOpen} className="hover:bg-[#f3f3f3] transition-colors cursor-pointer rounded-[6px] w-fit py-1 px-2 flex items-center ">
           <div>
             {icons.image}

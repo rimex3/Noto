@@ -42,7 +42,7 @@ export function CoverImageModal() {
             setFile(undefined)
             coverImage.onClose()
         }
-    }, [coverImage, edgestore.publicFiles, mutateAsync])
+    }, [coverImage, edgestore.publicFiles, mutateAsync, pageId])
 
     return (
         <Dialog open={coverImage.isOpen} onOpenChange={coverImage.onClose}>
