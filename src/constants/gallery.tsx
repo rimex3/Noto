@@ -1,7 +1,7 @@
 
 
 export const GALLERY = {
-    ["COLOR & GRADIENT"]: [
+    ["Color & Gradient"]: [
         "/images/gallery/solid_red.png"
     ],
     ["The MET Museum - Japanese Prints"]: [

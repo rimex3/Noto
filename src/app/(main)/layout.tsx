@@ -10,7 +10,6 @@ export default function RootLayout({
 
     return (
         <MainLayout>
-            
             {children}
         </MainLayout>
     );

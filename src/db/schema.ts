@@ -1,4 +1,4 @@
-import { foreignKey } from "drizzle-orm/pg-core";
+import { boolean, foreignKey } from "drizzle-orm/pg-core";
 import { pgTable, uuid, varchar, timestamp, pgEnum, jsonb, AnyPgColumn } from "drizzle-orm/pg-core";
 
 export const pageTypeEnum = pgEnum("page_type", ["empty", "tasks"]);
@@ -21,6 +21,7 @@ export const pagesTable = pgTable("pages", {
     content: jsonb("content"),
     coverUrl: varchar("cover_url", { length: 500 }),
     icon: varchar("emoji", { length: 255 }),
+    isArchived: boolean("is_archived").default(false),
     created_at: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
     updated_at: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
 }, (table) => {

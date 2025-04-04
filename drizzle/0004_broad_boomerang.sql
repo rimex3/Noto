@@ -1,0 +1,1 @@
+ALTER TABLE "pages" RENAME COLUMN "isArchived" TO "is_archived";

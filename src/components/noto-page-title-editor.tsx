@@ -9,9 +9,8 @@ import { useIsSaving } from "@/hooks/use-is-saving";
 import { useDocuments } from "@/hooks/use-documents";
 import { useCoverImage } from "@/hooks/use-cover-image";
 import { PageType } from "@/types";
-import IconPicker from "./icon-picker";
 import { cn } from "@/lib/cn";
-import { addRandomImage } from "@/lib/add-random-image";
+import { addRandomEmoji, addRandomImage } from "@/lib/add-random-image";
 
 type NotoPageTitleEditorProps = {
   page: PageType;
@@ -26,69 +25,49 @@ export default function NotoPageTitleEditor({ page }: NotoPageTitleEditorProps) 
   const setIsSaving = useIsSaving((state) => state.setIsSaving);
   const document = useDocuments();
 
-  const [currentTitle, setCurrentTitle] = useState(page.title || "");
-  const [currentEmoji, setCurrentEmoji] = useState(page.icon || "");
-  const [open, setOpen] = useState(false);
-
-  const debouncedTitleChange = useDebounce((title) => {
-    setCurrentTitle(title);
-  }, 300);
-
-  const pageId = page.id
-
-
-  const onOpen = () => {
-    setOpen(false)
-  }
+  const [title, setTitle] = useState(page.title || "");
+  const [emoji, setEmoji] = useState(page.icon || "");
+  const debouncedTitleChange = useDebounce(setTitle, 300);
+  const pageId = page.id;
 
   const handleSave = useCallback(async () => {
-    if (!pageId) return;
+    if (!pageId || (title === page.title && emoji === page.icon)) return;
 
     setIsSaving(true);
-    await mutateAsync({
-      id: pageId,
-      title: currentTitle,
-      icon: currentEmoji,
-    });
+    await mutateAsync({ id: pageId, title, icon: emoji });
     setIsSaving(false);
-  }, [currentTitle, currentEmoji, mutateAsync, pageId, setIsSaving]);
+  }, [title, emoji, pageId, page.title, page.icon, mutateAsync, setIsSaving]);
 
-  const updateRandomImage = useCallback(async () => {
-    const url = addRandomImage()
-    await mutateAsync({
-      id: pageId!,
-      coverUrl: url,
-    });
-    coverImage.onReplace(url)
-  }, [pageId, coverImage, mutateAsync]);
+  const updateRandomImage = async () => {
+    if (!pageId) return;
+    const url = addRandomImage();
+    await mutateAsync({ id: pageId, coverUrl: url });
+    coverImage.onReplace(url);
+  };
+
+  const updateRandomIcon = () => {
+    setEmoji(addRandomEmoji());
+  };
 
   useEffect(() => {
-    document.setTitle(currentTitle, pageId!);
-  }, [currentTitle, pageId]);
+    document.setTitle(title, pageId!);
+  }, [title, pageId]);
 
   useEffect(() => {
     handleSave();
-  }, [currentTitle, currentEmoji]);
+  }, [title, emoji]);
 
   return (
     <div className={cn("group w-fit h-fit", page.coverUrl ? "mt-3" : "mt-7")}>
       <div className="flex items-center opacity-0 group-hover:opacity-100 transition-all">
         {!page.icon && (
-          <IconPicker asChild open={open} onOpen={onOpen} onEmojiChange={(icon) => {
-            setCurrentEmoji(icon)
-            setOpen(false)
-          }}>
-            <div className="flex items-center w-fit py-1 px-2 cursor-pointer rounded-[6px] hover:bg-[#f3f3f3] transition-colors">
-              <div>{icons.emoji}</div>
-              <span className="text-[#9B9A97] text-[14px]">Add icon</span>
-            </div>
-          </IconPicker>
+          <div onClick={updateRandomIcon} className="flex items-center w-fit py-1 px-2 cursor-pointer rounded-[6px] hover:bg-[#f3f3f3] transition-colors">
+            <div>{icons.emoji}</div>
+            <span className="text-[#9B9A97] text-[14px]">Add icon</span>
+          </div>
         )}
         {!page.coverUrl && (
-          <div
-            onClick={updateRandomImage}
-            className="flex items-center w-fit py-1 px-2 cursor-pointer rounded-[6px] hover:bg-[#f3f3f3] transition-colors"
-          >
+          <div onClick={updateRandomImage} className="flex items-center w-fit py-1 px-2 cursor-pointer rounded-[6px] hover:bg-[#f3f3f3] transition-colors">
             <div>{icons.image}</div>
             <span className="text-[#9B9A97] text-[14px]">Add cover</span>
           </div>

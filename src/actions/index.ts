@@ -24,13 +24,14 @@ export const createPage = async ({ title, content, type, auth_id, id, currentPag
     }
 };
 
-export const updatePage = async ({ id, title, content, currentPageId, coverUrl, icon }: {
+export const updatePage = async ({ id, title, content, currentPageId, coverUrl, icon, isArchived }: {
     id: string,
     title?: string,
     content?: BlockType[],
     currentPageId?: string,
     coverUrl?: string,
     icon?: string
+    isArchived?: boolean
 }) => {
     try {
         const data = await db
@@ -40,7 +41,8 @@ export const updatePage = async ({ id, title, content, currentPageId, coverUrl, 
                 content,
                 updated_at: new Date(),
                 coverUrl,
-                icon
+                icon,
+                isArchived
             })
             .where(eq(pagesTable.id, id))
             .returning({ id: pagesTable.id });
@@ -49,6 +51,21 @@ export const updatePage = async ({ id, title, content, currentPageId, coverUrl, 
         if (currentPageId) revalidatePath(`/pages/${currentPageId}`);
 
         return { id: data[0].id };
+    } catch (err: any) {
+        throw new Error(err);
+    }
+};
+
+export const deletePage = async ({ id }: { id: string }) => {
+    try {
+        await db
+            .delete(pagesTable)
+            .where(eq(pagesTable.id, id));
+
+        revalidatePath("/pages");
+        revalidatePath(`/pages/${id}`);
+
+        return { success: true, id };
     } catch (err: any) {
         throw new Error(err);
     }

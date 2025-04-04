@@ -221,4 +221,11 @@
     background: #C2DCF7 !important;
     color: #37352F !important;
   }
+
+  em-emoji-picker {
+    --category-icon-size: 24px;
+    --font-size: 14px;
+    height: 300px;
+    max-height: 70vh;
+  }
 }

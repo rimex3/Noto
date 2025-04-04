@@ -39,7 +39,7 @@ export default function NotoPageHeader({ page }: { page: PageType }) {
     useKey({ keys: "Enter", handler: handleUpdatePage });
 
     return (
-        <div className="h-[44px] pl-[12px] pr-[10px] flex items-center justify-between overflow-hidden">
+        <div className="h-[44px] pl-[12px] pr-[10px] flex items-center justify-between overflow-hidden sticky left-0 top-0 z-50 bg-white ">
             {
                 isEditable ?
                     <Input onBlur={() => setIsEditable(false)} onChange={handleChange} autoFocus defaultValue={page.title || "New page"} className="w-[100px] h-[25px] rounded-[6px]" placeholder="New page" />

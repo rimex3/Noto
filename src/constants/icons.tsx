@@ -129,6 +129,98 @@ const PageEmptyIcon = () => (
     </svg>
 );
 
+
+const TrashIcon = () => (
+    <svg
+        xmlnsXlink="http://www.w3.org/1999/xlink"
+        xmlns="http://www.w3.org/2000/svg"
+        aria-hidden="true"
+        role="graphics-symbol"
+        viewBox="0 0 20 20"
+        className="trash"
+        style={{
+            width: 20,
+            height: 20,
+            display: "block",
+            fill: "currentColor",
+            flexShrink: 0,
+        }}
+        width={20}
+        height={20}
+    >
+        <path d="M8.806 8.505a.55.55 0 0 0-1.1 0v5.979a.55.55 0 1 0 1.1 0zm3.488 0a.55.55 0 0 0-1.1 0v5.979a.55.55 0 1 0 1.1 0z" />
+        <path d="M6.386 3.925v1.464H3.523a.625.625 0 1 0 0 1.25h.897l.393 8.646A2.425 2.425 0 0 0 7.236 17.6h5.528a2.425 2.425 0 0 0 2.422-2.315l.393-8.646h.898a.625.625 0 1 0 0-1.25h-2.863V3.925c0-.842-.683-1.525-1.525-1.525H7.91c-.842 0-1.524.683-1.524 1.525M7.91 3.65h4.18c.15 0 .274.123.274.275v1.464H7.636V3.925c0-.152.123-.275.274-.275m-.9 2.99h7.318l-.39 8.588a1.175 1.175 0 0 1-1.174 1.122H7.236a1.175 1.175 0 0 1-1.174-1.122l-.39-8.589z" />
+    </svg>
+);
+
+
+const DuplicateIcon = () => {
+    return (
+        <svg
+            xmlns="http://www.w3.org/2000/svg"
+            xmlnsXlink="http://www.w3.org/1999/xlink"
+            aria-hidden="true"
+            role="graphics-symbol"
+            viewBox="0 0 20 20"
+            className="duplicate"
+            width="20"
+            height="20"
+            style={{
+                display: "block",
+                fill: "rgb(50, 48, 44)",
+                flexShrink: 0,
+            }}
+        >
+            <path
+                d="M4.5 2.375A2.125 2.125 0 0 0 2.375 4.5V12c0 1.174.951 2.125 2.125 2.125h1.625v1.625c0 1.174.951 2.125 2.125 2.125h7.5a2.125 2.125 0 0 0 2.125-2.125v-7.5a2.125 2.125 0 0 0-2.125-2.125h-1.625V4.5A2.125 2.125 0 0 0 12 2.375zm8.375 3.75H8.25A2.125 2.125 0 0 0 6.125 8.25v4.625H4.5A.875.875 0 0 1 3.625 12V4.5c0-.483.392-.875.875-.875H12c.483 0 .875.392.875.875zm-5.5 2.125c0-.483.392-.875.875-.875h7.5c.483 0 .875.392.875.875v7.5a.875.875 0 0 1-.875.875h-7.5a.875.875 0 0 1-.875-.875z"
+                fill="#32302C"
+            />
+        </svg>
+    );
+};
+const ArrowTurnUpRightIcon = () => (
+    <svg xmlnsXlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"
+        role="graphics-symbol" viewBox="0 0 20 20" className="arrowTurnUpRight"
+        style={{ width: 20, height: 20, display: "block", fill: "rgb(50, 48, 44)", flexShrink: 0 }} width={20} height={20} >
+        <path
+            d="M12.408 4.792a.625.625 0 0 1 .884-.884l4.4 4.4a.625.625 0 0 1 0 .884l-4.4 4.4a.625.625 0 0 1-.884-.884l3.333-3.333H5.25a.875.875 0 0 0-.875.875v5a.625.625 0 1 1-1.25 0v-5c0-1.173.951-2.125 2.125-2.125h10.491z"
+            fill="#32302C" />
+    </svg >
+)
+
+const LinkIcon = () => {
+    return (
+        <svg
+            xmlns="http://www.w3.org/2000/svg"
+            xmlnsXlink="http://www.w3.org/1999/xlink"
+            aria-hidden="true"
+            role="graphics-symbol"
+            viewBox="0 0 20 20"
+            className="link"
+            width="20"
+            height="20"
+            style={{
+                display: "block",
+                fill: "rgb(50, 48, 44)",
+                flexShrink: 0,
+            }}
+        >
+            <path
+                d="M10.61 3.61a3.776 3.776 0 0 1 5.34 0l.367.368a3.776 3.776 0 0 1 0 5.34l-1.852 1.853a.625.625 0 1 1-.884-.884l1.853-1.853a2.526 2.526 0 0 0 0-3.572l-.368-.367a2.526 2.526 0 0 0-3.572 0L9.641 6.347a.625.625 0 0 1-.883-.884z"
+                fill="#32302C"
+            />
+            <path
+                d="M12.98 6.949a.625.625 0 0 1 0 .883l-5.45 5.449a.625.625 0 1 1-.884-.884l5.448-5.448a.625.625 0 0 1 .884 0"
+                fill="#32302C"
+            />
+            <path
+                d="M6.348 8.757a.625.625 0 0 1 0 .884l-1.853 1.853a2.526 2.526 0 0 0 0 3.572l.367.367a2.526 2.526 0 0 0 3.572 0l1.853-1.852a.625.625 0 1 1 .884.883l-1.853 1.853a3.776 3.776 0 0 1-5.34 0l-.367-.367a3.776 3.776 0 0 1 0-5.34l1.853-1.853a.625.625 0 0 1 .884 0"
+                fill="#32302C"
+            />
+        </svg>
+    );
+};
+
 export const icons = {
     home: <HomeIcon />,
     compose: <ComposeIcon />,
@@ -136,5 +228,9 @@ export const icons = {
     ellipsis: <EllipsisSmallIcon />,
     emoji: <EmojiIcon />,
     image: <ImageIcon />,
-    pageEmpty: <PageEmptyIcon />
+    pageEmpty: <PageEmptyIcon />,
+    trash: <TrashIcon />,
+    arrowTurnUpRight: <ArrowTurnUpRightIcon />,
+    duplicate: <DuplicateIcon />,
+    link: <LinkIcon />
 } as const;

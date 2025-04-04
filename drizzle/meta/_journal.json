@@ -22,6 +22,20 @@
       "when": 1743685110144,
       "tag": "0002_chilly_zaran",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1743784132555,
+      "tag": "0003_true_mandroid",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1743784392414,
+      "tag": "0004_broad_boomerang",
+      "breakpoints": true
     }
   ]
 }
