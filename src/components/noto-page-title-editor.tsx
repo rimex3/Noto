@@ -5,13 +5,13 @@ import { Dispatch, SetStateAction, useCallback, useEffect, useState } from "reac
 import { useDebounce } from "@/hooks/use-debounce";
 import { useMutation } from "@tanstack/react-query";
 import { updatePage } from "@/actions";
-import { useParams } from "next/navigation";
 import { useIsSaving } from "@/hooks/use-is-saving";
 import { useDocuments } from "@/hooks/use-documents";
 import { useCoverImage } from "@/hooks/use-cover-image";
 import { PageType } from "@/types";
 import IconPicker from "./icon-picker";
 import { cn } from "@/lib/cn";
+import { addRandomImage } from "@/lib/add-random-image";
 
 type NotoPageTitleEditorProps = {
   page: PageType;
@@ -28,12 +28,18 @@ export default function NotoPageTitleEditor({ page }: NotoPageTitleEditorProps) 
 
   const [currentTitle, setCurrentTitle] = useState(page.title || "");
   const [currentEmoji, setCurrentEmoji] = useState(page.icon || "");
+  const [open, setOpen] = useState(false);
 
   const debouncedTitleChange = useDebounce((title) => {
     setCurrentTitle(title);
   }, 300);
 
   const pageId = page.id
+
+
+  const onOpen = () => {
+    setOpen(false)
+  }
 
   const handleSave = useCallback(async () => {
     if (!pageId) return;
@@ -47,6 +53,15 @@ export default function NotoPageTitleEditor({ page }: NotoPageTitleEditorProps) 
     setIsSaving(false);
   }, [currentTitle, currentEmoji, mutateAsync, pageId, setIsSaving]);
 
+  const updateRandomImage = useCallback(async () => {
+    const url = addRandomImage()
+    await mutateAsync({
+      id: pageId!,
+      coverUrl: url,
+    });
+    coverImage.onReplace(url)
+  }, [pageId, coverImage, mutateAsync]);
+
   useEffect(() => {
     document.setTitle(currentTitle, pageId!);
   }, [currentTitle, pageId]);
@@ -56,10 +71,13 @@ export default function NotoPageTitleEditor({ page }: NotoPageTitleEditorProps) 
   }, [currentTitle, currentEmoji]);
 
   return (
-    <div className={cn("group w-fit h-fit", page.icon && page.coverUrl ? "mt-8" : "")}>
+    <div className={cn("group w-fit h-fit", page.coverUrl ? "mt-3" : "mt-7")}>
       <div className="flex items-center opacity-0 group-hover:opacity-100 transition-all">
         {!page.icon && (
-          <IconPicker asChild onEmojiChange={setCurrentEmoji}>
+          <IconPicker asChild open={open} onOpen={onOpen} onEmojiChange={(icon) => {
+            setCurrentEmoji(icon)
+            setOpen(false)
+          }}>
             <div className="flex items-center w-fit py-1 px-2 cursor-pointer rounded-[6px] hover:bg-[#f3f3f3] transition-colors">
               <div>{icons.emoji}</div>
               <span className="text-[#9B9A97] text-[14px]">Add icon</span>
@@ -68,7 +86,7 @@ export default function NotoPageTitleEditor({ page }: NotoPageTitleEditorProps) 
         )}
         {!page.coverUrl && (
           <div
-            onClick={coverImage.onOpen}
+            onClick={updateRandomImage}
             className="flex items-center w-fit py-1 px-2 cursor-pointer rounded-[6px] hover:bg-[#f3f3f3] transition-colors"
           >
             <div>{icons.image}</div>

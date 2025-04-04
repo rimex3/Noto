@@ -2,16 +2,19 @@ import { Skeleton } from "./ui/skeleton";
 
 export default function NotoPageContentSkeleton() {
     return (
-        <div className="w-full">
+        <div className="w-full overflow-hidden relative">
             <div className="h-[44px] pl-[12px] pr-[10px] flex items-center justify-between overflow-hidden">
                 <div>
                     <Skeleton className="w-[100px] h-[25px] rounded-[6px]" />
                 </div>
-                <Skeleton className="" />
+                <Skeleton />
+            </div>
+            <div>
+                <Skeleton className="w-full h-[30vh] overflow-hidden relative !rounded-none" />
             </div>
             <div className="relative w-fit mx-auto flex items-start justify-center mt-28">
                 <div className="flex flex-col">
-                    <div className="pb-[30vh] w-[600px]">
+                    <div className=" w-[600px]">
                         <Skeleton className="h-[80px]" />
 
                         <div className="mt-10 flex flex-col space-y-3">
