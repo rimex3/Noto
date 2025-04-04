@@ -5,6 +5,7 @@ import { BlockNoteView } from "@blocknote/mantine";
 import "@blocknote/mantine/style.css";
 import { Dispatch, SetStateAction, useEffect } from "react";
 import { useDebounce } from "@/hooks/use-debounce";
+import { useEdgeStore } from "@/lib/edgestore";
 
 export type BlockType = {
     id: string;
@@ -27,8 +28,23 @@ type NotoEditorProps = {
 };
 
 export default function NotoEditor({ autoFocus, setIsEditorFocused, initialContent, setDocuments }: NotoEditorProps) {
+    const { edgestore } = useEdgeStore();
+
+    const handleUpload = async (file: File) => {
+        const response = await edgestore.publicFiles.upload({
+            file
+        });
+
+        return response.url;
+    }
+
+    const debouncedOnChange = useDebounce((doc) => {
+        setDocuments(doc);
+    }, 300);
+
     const editor = useCreateBlockNote({
-        initialContent: initialContent as any
+        initialContent: initialContent as any,
+        uploadFile: handleUpload,
     });
 
 
@@ -39,9 +55,7 @@ export default function NotoEditor({ autoFocus, setIsEditorFocused, initialConte
         }
     }, [autoFocus, editor]);
 
-    const debouncedOnChange = useDebounce((doc) => {
-        setDocuments(doc);
-    }, 300);
+    
 
     useEffect(() => {
         if (!editor) return;

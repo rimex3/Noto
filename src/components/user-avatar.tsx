@@ -28,7 +28,8 @@ export default function UserAvatar() {
         await mutateAsync({
             title: 'New page',
             auth_id: user?.id!,
-            currentPageId: pageId?.[0]
+            currentPageId: pageId?.[0],
+            
         })
     }, [user, mutateAsync, pageId])
 
