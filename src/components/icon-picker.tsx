@@ -25,7 +25,7 @@ const IconPicker = memo(({ children, onEmojiChange, asChild, open, onOpen }: Ico
                 <LazyEmojiPicker
                     height={350}
                     theme={Theme.LIGHT}
-                    emojiStyle={EmojiStyle.TWITTER}
+                    emojiStyle={EmojiStyle.NATIVE}
                     onEmojiClick={(selected) => onEmojiChange(selected.emoji)}
                     lazyLoadEmojis
                 />

@@ -5,7 +5,7 @@ import IconPicker from "./icon-picker"
 import { useParams } from "next/navigation"
 import { useMutation } from "@tanstack/react-query"
 import { updatePage } from "@/actions"
-import { useCallback, useState, useTransition } from "react"
+import { useCallback, useState } from "react"
 
 type NotoPageIconProps = {
     page: PageType
@@ -29,17 +29,15 @@ export default function NotoPageIcon({ page }: NotoPageIconProps) {
     }, [pageId, mutateAsync])
 
     return (
-        <>
-            <IconPicker
-                asChild
-                onEmojiChange={handleUpdateIcon}
-                open={open}
-                onOpen={onOpen}
-            >
-                <div className="absolute text-[5rem] -left-[165px] -top-[90px] select-none w-fit cursor-pointer">
-                    {page?.icon}
-                </div>
-            </IconPicker>
-        </>
+        <IconPicker
+            asChild
+            onEmojiChange={handleUpdateIcon}
+            open={open}
+            onOpen={onOpen}
+        >
+            <div className="absolute text-[5rem] -left-[165px] -top-[90px] select-none w-fit cursor-pointer">
+                {page?.icon}
+            </div>
+        </IconPicker>
     )
 }

@@ -9,8 +9,8 @@ import {
 export default function NotoTooltip({ className, content, children }: { className?: string, content: string, children?: Readonly<React.ReactElement> }) {
     return (
         <div className={cn(className)}>
-            <TooltipProvider>
-                <Tooltip>
+            <TooltipProvider >
+                <Tooltip >
                     <TooltipTrigger asChild>
                         {children}
                     </TooltipTrigger>

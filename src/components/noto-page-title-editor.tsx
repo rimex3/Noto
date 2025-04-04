@@ -33,14 +33,15 @@ export default function NotoPageTitleEditor({ page }: NotoPageTitleEditorProps) 
   const setIsSaving = useIsSaving(state => state.setIsSaving)
   const debouncedOnChange = useDebounce((title) => {
     setCurrentTitle(title)
-    setTitle(title)
+    setTitle(title, pageId?.[0]!)
   }, 300);
+  const document = useDocuments()
 
   const handleMutate = useCallback(async () => {
     setIsSaving(true)
     await mutateAsync({
       id: pageId?.[0]!,
-      title: currentTitle || page.title,
+      title: currentTitle,
       icon: currentEmoji
     })
     setIsSaving(false)
@@ -52,9 +53,7 @@ export default function NotoPageTitleEditor({ page }: NotoPageTitleEditorProps) 
   }
 
   useEffect(() => {
-    if (currentTitle || currentEmoji) {
-      handleMutate()
-    }
+    handleMutate()
   }, [currentTitle, currentEmoji])
 
   return (
@@ -94,8 +93,9 @@ export default function NotoPageTitleEditor({ page }: NotoPageTitleEditorProps) 
         onChange={(e) => {
           const value = e.target.value
           debouncedOnChange(value)
+          document.setTitle(value, page.id!)
         }}
-        defaultValue={page.title}
+        defaultValue={currentTitle || page.title}
         placeholder="New Page"
       />
     </div>
