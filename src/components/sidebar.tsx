@@ -3,6 +3,7 @@ import PagesList from "./pages-list";
 import SidebarItem from "./sidebar-item";
 import UserAvatar from "./user-avatar";
 import { Separator } from "./ui/separator";
+import TrashList from "./trash-list";
 
 export default function Sidebar() {
     return (
@@ -37,11 +38,13 @@ export default function Sidebar() {
                 <PagesList />
             </div>
 
-            <SidebarItem className="mt-4">
-                <div className="flex items-center space-x-1.5 text-[#5E5C57] text-[13px] font-medium" >
-                    <span>{icons.trash}</span> <span>Trash</span>
-                </div>
-            </SidebarItem>
+            <TrashList>
+                <SidebarItem className="mt-4">
+                    <div className="flex items-center space-x-1.5 text-[#5E5C57] text-[13px] font-medium" >
+                        <span>{icons.trash}</span> <span>Trash</span>
+                    </div>
+                </SidebarItem>
+            </TrashList>
         </aside>
     )
 }
