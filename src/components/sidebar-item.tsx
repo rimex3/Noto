@@ -1,4 +1,4 @@
-import { cn } from '@/lib/utils'
+import { cn } from '@/lib/cn'
 import React from 'react'
 
 export default function SidebarItem({ className, children }: Readonly<{ className?: string, children: React.ReactNode }>) {

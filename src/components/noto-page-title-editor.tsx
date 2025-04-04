@@ -11,7 +11,7 @@ import { useDocuments } from "@/hooks/use-documents";
 import { useCoverImage } from "@/hooks/use-cover-image";
 import { PageType } from "@/types";
 import IconPicker from "./icon-picker";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/cn";
 
 type NotoPageTitleEditorProps = {
   page: PageType;
@@ -21,20 +21,20 @@ type NotoPageTitleEditorProps = {
 
 export default function NotoPageTitleEditor({ page }: NotoPageTitleEditorProps) {
   const { mutateAsync } = useMutation({ mutationFn: updatePage });
-  
+
   const coverImage = useCoverImage();
   const setIsSaving = useIsSaving((state) => state.setIsSaving);
   const document = useDocuments();
-  
+
   const [currentTitle, setCurrentTitle] = useState(page.title || "");
   const [currentEmoji, setCurrentEmoji] = useState(page.icon || "");
-  
+
   const debouncedTitleChange = useDebounce((title) => {
     setCurrentTitle(title);
   }, 300);
-  
+
   const pageId = page.id
-  
+
   const handleSave = useCallback(async () => {
     if (!pageId) return;
 

@@ -3,7 +3,7 @@ import NotoPageContent from "@/components/noto-page-content";
 import NotoPageCover from "@/components/noto-page-cover";
 import NotoPageHeader from "@/components/noto-page-header";
 import NotoPageIcon from "@/components/noto-page-icon";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/cn";
 import { getPageById } from "@/lib/getPageById";
 import { currentUser } from "@clerk/nextjs/server";
 

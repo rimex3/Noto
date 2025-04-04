@@ -8,7 +8,7 @@ import { useEdgeStore } from "@/lib/edgestore";
 import { useMutation } from "@tanstack/react-query";
 import { updatePage } from "@/actions";
 import { useParams } from "next/navigation";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/cn";
 import Image from "next/image";
 
 export function CoverImageModal() {

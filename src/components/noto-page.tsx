@@ -5,7 +5,7 @@ import NotoTooltip from "./noto-tooltip"
 import SidebarItem from "./sidebar-item"
 import { type PageType } from "@/types"
 import Link from "next/link"
-import { cn } from "@/lib/utils"
+import { cn } from "@/lib/cn"
 import { usePathname } from "next/navigation"
 import { useDocuments } from "@/hooks/use-documents"
 
