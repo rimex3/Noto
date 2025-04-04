@@ -1,3 +1,5 @@
+'use client'
+
 import { cn } from "@/lib/utils";
 import {
     Tooltip,
@@ -5,8 +7,9 @@ import {
     TooltipProvider,
     TooltipTrigger,
 } from "@/components/ui/tooltip"
+import { memo } from "react";
 
-export default function NotoTooltip({ className, content, children }: { className?: string, content: string, children?: Readonly<React.ReactElement> }) {
+const NotoTooltip = memo(({ className, content, children }: { className?: string, content: string, children?: Readonly<React.ReactElement> }) => {
     return (
         <div className={cn(className)}>
             <TooltipProvider >
@@ -21,4 +24,8 @@ export default function NotoTooltip({ className, content, children }: { classNam
             </TooltipProvider>
         </div>
     )
-}
+})
+
+NotoTooltip.displayName = "NotoTooltip"
+
+export default NotoTooltip

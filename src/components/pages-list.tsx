@@ -1,6 +1,6 @@
 import NotoPage from "./noto-page";
 import { auth } from "@clerk/nextjs/server";
-import { getPage } from "@/utils/getPages";
+import { getPage } from "@/lib/getPages";
 
 
 export default async function PagesList() {
