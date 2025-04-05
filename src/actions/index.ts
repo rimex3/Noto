@@ -16,8 +16,7 @@ export const createPage = async ({ title, content, type, auth_id, id, currentPag
             .values({ id: id!, auth_id: auth_id!, title: title!, content, type })
             .returning({ id: pagesTable.id });
 
-        revalidatePath("/pages");
-        if (currentPageId) revalidatePath(`/pages/${currentPageId}`);
+        if (currentPageId || id) revalidatePath(`/pages/${currentPageId}`);
         return { id: data[0].id };
     } catch (err: any) {
         throw new Error(err);
