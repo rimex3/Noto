@@ -11,7 +11,8 @@ export type PageType = {
     icon?: string
     coverUrl?: string
     isPublished?: boolean
-    create_at?: Date
+    parent_id?: string
+    created_at?: Date
     updated_at?: Date
     children?: PageType[]
 } 

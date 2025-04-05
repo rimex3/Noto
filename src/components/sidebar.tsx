@@ -5,8 +5,12 @@ import UserAvatar from "./user-avatar";
 import { Separator } from "./ui/separator";
 import TrashList from "./trash-list";
 import SearchItem from "./search-item";
+import { auth } from "@clerk/nextjs/server";
+import { getRootPages } from "@/lib/get-pages";
 
-export default function Sidebar() {
+export default async function Sidebar() {
+    const user = await auth()
+    const pages = await getRootPages(user.userId!)
     return (
         <aside className="bg-[#F8F8F7] w-[300px] min-h-screen shadow-sidebar p-1 z-20 fixed top-0">
             <div>
@@ -23,7 +27,7 @@ export default function Sidebar() {
                 <Separator className="my-5 " />
             </div>
             <div>
-                <PagesList />
+                <PagesList pages={pages as any} />
             </div>
 
             <TrashList>

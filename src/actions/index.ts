@@ -14,14 +14,16 @@ export const createPage = async ({ title, content, type, auth_id, id, currentPag
         const data = await db
             .insert(pagesTable)
             .values({ id: id!, auth_id: auth_id!, title: title!, content, type })
-            .returning({ id: pagesTable.id });
+            .returning();
 
         if (currentPageId || id) revalidatePath(`/pages/${currentPageId}`);
-        return { id: data[0].id };
+
+        return data[0];
     } catch (err: any) {
         throw new Error(err);
     }
 };
+
 
 export const updatePage = async ({ id, title, content, currentPageId, coverUrl, icon, isArchived, auth_id, isPublished }: {
     id: string,

@@ -10,18 +10,55 @@ import { createPage } from "@/actions"
 import { useCallback } from "react"
 import { toast } from "sonner"
 import { useParams, useRouter } from "next/navigation"
+import { usePagesList } from "@/hooks/use-pages-list"
+import { PageType } from "@/types"
 
 export default function UserAvatar() {
     const router = useRouter()
     const { user } = useUser()
     const { pageId }: { pageId: string[] } = useParams()
+    const pagesList = usePagesList()
 
     const { mutateAsync } = useMutation({
         mutationFn: createPage,
-        onSuccess: (data) => {
+        onMutate: async (newPage) => {
+            const tempId = `temp-${Date.now()}`
+
+            const optimisticPage: PageType = {
+                id: tempId,
+                title: newPage.title,
+                auth_id: newPage.auth_id,
+                isArchived: false,
+                content: [],
+                type: 'empty',
+                icon: undefined,
+                coverUrl: undefined,
+                isPublished: false,
+                created_at: new Date(),
+                updated_at: new Date(),
+                children: [],
+            }
+            const previousPages = pagesList.pagesList
+
+            pagesList.setPagesList([optimisticPage, ...previousPages])
+
+            return { previousPages, tempId }
+        },
+        onSuccess: (data, _variables, context) => {
+            pagesList.setPagesList([
+                { ...data as any},
+                ...pagesList.pagesList.filter((p) => p.id !== context?.tempId),
+            ])
+
             router.push(`/pages/${data.id}`)
             toast.success("Page has been created")
-        }
+        },
+        onError: (_err, _variables, context) => {
+            if (context?.previousPages) {
+                pagesList.setPagesList(context.previousPages)
+            }
+            toast.error("Failed to create page")
+        },
     })
 
     const handleMutate = useCallback(async () => {
@@ -29,7 +66,7 @@ export default function UserAvatar() {
             title: 'New page',
             auth_id: user?.id!,
             currentPageId: pageId?.[0],
-            
+
         })
     }, [user, mutateAsync, pageId])
 

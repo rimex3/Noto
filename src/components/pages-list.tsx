@@ -1,18 +1,25 @@
-import { getRootPages } from "@/lib/get-pages";
+'use client'
+
+import { useEffect } from "react";
 import NotoPage from "./noto-page";
-import { auth } from "@clerk/nextjs/server";
 import ModalProvider from "./modal-provider";
+import { PageType } from "@/types";
+import { usePagesList } from "@/hooks/use-pages-list";
 
+export default function PagesList({ pages }: { pages: PageType[] }) {
+    const { pagesList, setPagesList } = usePagesList();
 
-export default async function PagesList() {
-    const user = await auth()
-    const pages = await getRootPages(user.userId!)
+    useEffect(() => {
+        setPagesList(pages);
+    }, [pages, setPagesList]);
 
     return (
         <div className="flex flex-col space-y-1">
-            {pages.map((page) => <NotoPage key={page.id} {...page as any} />)}
+            {pagesList.map((page) => (
+                <NotoPage key={page.id} {...page as any} />
+            ))}
 
-            <ModalProvider pages={pages as any} />
+            <ModalProvider pages={pagesList as any} />
         </div>
-    )
+    );
 }
