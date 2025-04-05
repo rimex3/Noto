@@ -11,6 +11,7 @@ export const getPages = cache(async (userId: string) => {
 })
 
 export const getFirstPage = cache(async (userId: string) => {
+    'use cache'
     return await db.query.pagesTable.findFirst({
         where: (pages, { eq, and }) => and(
             eq(pages.auth_id, userId),
