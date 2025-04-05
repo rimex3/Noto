@@ -9,6 +9,7 @@ import { useIsSaving } from "@/hooks/use-is-saving";
 import { useMutation } from "@tanstack/react-query";
 import { PageType } from "@/types";
 import { BlockType } from "./noto-editor";
+import { useUser } from "@clerk/nextjs";
 
 export default function NotoPageContent({ pageId, page }: { pageId: string, page: PageType, userId: string }) {
     const [isEnabled, setIsEnabled] = useState(true)
@@ -17,6 +18,8 @@ export default function NotoPageContent({ pageId, page }: { pageId: string, page
     const { mutateAsync } = useMutation({
         mutationFn: updatePage,
     })
+    const { user } = useUser()
+
     const setIsSaving = useIsSaving(state => state.setIsSaving)
 
     const handleEditorFocus = useCallback(() => {
@@ -31,9 +34,10 @@ export default function NotoPageContent({ pageId, page }: { pageId: string, page
         await mutateAsync({
             id: pageId,
             content: documents,
+            auth_id: user?.id
         });
         setIsSaving(false);
-    }, [pageId, documents, mutateAsync, setIsSaving]);
+    }, [pageId, documents, mutateAsync, setIsSaving, user?.id]);
 
     useEffect(() => {
         if (documents.length > 0) {

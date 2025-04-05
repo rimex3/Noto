@@ -8,6 +8,7 @@ import { PageType } from "@/types"
 import { useMutation } from "@tanstack/react-query"
 import { updatePage } from "@/actions"
 import { useDocuments } from "@/hooks/use-documents"
+import { useUser } from "@clerk/nextjs"
 
 export default function NotoPageHeader({ page }: { page: PageType }) {
     const [isEditable, setIsEditable] = useState(false)
@@ -16,6 +17,8 @@ export default function NotoPageHeader({ page }: { page: PageType }) {
     const { mutateAsync } = useMutation({
         mutationFn: updatePage
     })
+
+    const { user } = useUser()
 
 
     const document = useDocuments()
@@ -30,11 +33,12 @@ export default function NotoPageHeader({ page }: { page: PageType }) {
     const handleUpdatePage = useCallback(async () => {
         await mutateAsync({
             id: page.id!,
-            title
+            title,
+            auth_id: user?.id!
         })
         document.setTitle(title!, page.id!)
         setIsEditable(false)
-    }, [mutateAsync, page.id, title, document])
+    }, [mutateAsync, page.id, title, document, user?.id])
 
     useKey({ keys: "Enter", handler: handleUpdatePage });
 

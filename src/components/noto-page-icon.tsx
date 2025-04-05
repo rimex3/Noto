@@ -6,6 +6,7 @@ import { useParams } from "next/navigation"
 import { useMutation } from "@tanstack/react-query"
 import { updatePage } from "@/actions"
 import { useCallback, useState } from "react"
+import { useUser } from "@clerk/nextjs"
 
 type NotoPageIconProps = {
     page: PageType
@@ -15,6 +16,8 @@ export default function NotoPageIcon({ page }: NotoPageIconProps) {
     const [open, setOpen] = useState(false)
     const { pageId } = useParams()
     const { mutateAsync } = useMutation({ mutationFn: updatePage })
+    const { user } = useUser()
+
 
     const onOpen = () => {
         setOpen(prev => !prev)
@@ -23,10 +26,11 @@ export default function NotoPageIcon({ page }: NotoPageIconProps) {
     const handleUpdateIcon = useCallback(async (icon: string) => {
         await mutateAsync({
             id: pageId?.[0]!,
-            icon
+            icon,
+            auth_id: user?.id
         })
         setOpen(false)
-    }, [pageId, mutateAsync])
+    }, [pageId, mutateAsync, user?.id])
 
     return (
         <IconPicker

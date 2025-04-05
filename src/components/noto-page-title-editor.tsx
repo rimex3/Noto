@@ -11,6 +11,7 @@ import { useCoverImage } from "@/hooks/use-cover-image";
 import { PageType } from "@/types";
 import { cn } from "@/lib/cn";
 import { addRandomEmoji, addRandomImage } from "@/lib/add-random-image";
+import { useUser } from "@clerk/nextjs";
 
 type NotoPageTitleEditorProps = {
   page: PageType;
@@ -20,6 +21,7 @@ type NotoPageTitleEditorProps = {
 
 export default function NotoPageTitleEditor({ page }: NotoPageTitleEditorProps) {
   const { mutateAsync } = useMutation({ mutationFn: updatePage });
+  const { user } = useUser()
 
   const coverImage = useCoverImage();
   const setIsSaving = useIsSaving((state) => state.setIsSaving);
@@ -34,9 +36,9 @@ export default function NotoPageTitleEditor({ page }: NotoPageTitleEditorProps) 
     if (!pageId || (title === page.title && emoji === page.icon)) return;
 
     setIsSaving(true);
-    await mutateAsync({ id: pageId, title, icon: emoji });
+    await mutateAsync({ id: pageId, title, icon: emoji, auth_id: user?.id });
     setIsSaving(false);
-  }, [title, emoji, pageId, page.title, page.icon, mutateAsync, setIsSaving]);
+  }, [title, emoji, pageId, page.title, page.icon, mutateAsync, setIsSaving, user?.id]);
 
   const updateRandomImage = async () => {
     if (!pageId) return;

@@ -12,6 +12,7 @@ import Image from "next/image";
 import { GALLERY } from "@/constants/gallery";
 import { Popover, PopoverContent } from "./ui/popover";
 import { PopoverTrigger } from "@radix-ui/react-popover";
+import { useUser } from "@clerk/nextjs";
 
 interface CoverImageProps {
     children: React.ReactNode;
@@ -24,6 +25,7 @@ export function CoverImage({ children }: CoverImageProps) {
     const { pageId } = useParams();
     const [isUploading, setIsUploading] = useState(false);
     const { edgestore } = useEdgeStore();
+    const { user } = useUser()
     const { mutateAsync } = useMutation({ mutationFn: updatePage });
     const coverImage = useCoverImage();
 
@@ -47,7 +49,7 @@ export function CoverImage({ children }: CoverImageProps) {
                     options: { replaceTargetUrl: coverImage.url },
                 });
 
-                await mutateAsync({ id: pageId[0], coverUrl: res.url });
+                await mutateAsync({ id: pageId[0], coverUrl: res.url, auth_id: user?.id! });
                 coverImage.onReplace(res.url);
             } finally {
                 setIsUploading(false);
@@ -55,7 +57,7 @@ export function CoverImage({ children }: CoverImageProps) {
                 setOpen(false);
             }
         },
-        [coverImage, edgestore.publicFiles, mutateAsync, pageId]
+        [coverImage, edgestore.publicFiles, mutateAsync, pageId, user?.id]
     );
 
     const handleAddLocalCover = useCallback(

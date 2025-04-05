@@ -2,6 +2,7 @@
 
 import { deletePage, updatePage } from "@/actions"
 import { icons } from "@/constants/icons"
+import { useUser } from "@clerk/nextjs"
 import { useMutation } from "@tanstack/react-query"
 import { useParams, useRouter } from "next/navigation"
 
@@ -17,9 +18,11 @@ export default function DeletedBanner() {
         mutationFn: deletePage
     })
 
+    const { user } = useUser()
+
     const handleRestore = async () => {
         try {
-            await updatePageMutation({ id: pageId?.[0]!, isArchived: false })
+            await updatePageMutation({ id: pageId?.[0]!, isArchived: false, auth_id: user?.id! })
         } finally {
             router.push(`/pages/${pageId?.[0]}`)
         }

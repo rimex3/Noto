@@ -4,6 +4,7 @@ import { updatePage } from "@/actions"
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover"
 import { icons } from "@/constants/icons"
 import { useMutation } from "@tanstack/react-query"
+import { useUser } from "@clerk/nextjs"
 
 interface ControlMenuProps {
     pageId: string
@@ -16,12 +17,14 @@ export default function ControlMenu({ children, onOpen, open, pageId }: ControlM
     const { mutateAsync } = useMutation({
         mutationFn: updatePage
     })
-
+    
+    const {user} = useUser()
     const handleArchive = async () => {
         try {
             await mutateAsync({
                 id: pageId,
-                isArchived: true
+                auth_id: user?.id!,
+                isArchived: true,
             })
         } finally {
             onOpen?.()

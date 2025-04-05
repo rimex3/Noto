@@ -5,7 +5,7 @@ import { BlockType } from "@/components/noto-editor";
 import { db } from "@/db"
 import { pagesTable } from "@/db/schema"
 import { type PageType } from "@/types"
-import { eq } from "drizzle-orm";
+import { and, eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 
 
@@ -24,14 +24,15 @@ export const createPage = async ({ title, content, type, auth_id, id, currentPag
     }
 };
 
-export const updatePage = async ({ id, title, content, currentPageId, coverUrl, icon, isArchived }: {
+export const updatePage = async ({ id, title, content, currentPageId, coverUrl, icon, isArchived, auth_id }: {
     id: string,
     title?: string,
     content?: BlockType[],
     currentPageId?: string,
     coverUrl?: string,
-    icon?: string
-    isArchived?: boolean
+    icon?: string,
+    isArchived?: boolean,
+    auth_id?: string
 }) => {
     try {
         const data = await db
@@ -44,7 +45,7 @@ export const updatePage = async ({ id, title, content, currentPageId, coverUrl, 
                 icon,
                 isArchived
             })
-            .where(eq(pagesTable.id, id))
+            .where(and(eq(pagesTable.id, id), auth_id ? eq(pagesTable.auth_id, auth_id) : undefined))
             .returning({ id: pagesTable.id });
 
         revalidatePath("/pages");

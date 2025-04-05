@@ -8,6 +8,7 @@ import { cn } from '@/lib/cn';
 import { useMutation } from '@tanstack/react-query';
 import { updatePage } from '@/actions';
 import { useParams } from 'next/navigation';
+import { useUser } from '@clerk/nextjs';
 
 interface IconPickerProps {
     onOpen?: () => void
@@ -25,12 +26,14 @@ const IconPicker = memo(({ children, onEmojiChange, asChild, open, onOpen }: Ico
     const { mutateAsync } = useMutation({
         mutationFn: updatePage
     })
+    const { user } = useUser()
 
     const handleDeleteIcon = async () => {
         try {
             await mutateAsync({
                 id: pageId?.[0]!,
-                icon: ""
+                icon: "",
+                auth_id: user?.id!
             })
         } finally {
             onOpen?.()

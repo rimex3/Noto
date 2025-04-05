@@ -9,6 +9,7 @@ import { useRouter } from "next/navigation"
 import { useMutation } from "@tanstack/react-query"
 import { deletePage, updatePage } from "@/actions"
 import { cn } from "@/lib/cn"
+import { useUser } from "@clerk/nextjs"
 
 interface TrashContentProps {
     trash: PageType[]
@@ -61,9 +62,11 @@ function TrashItem({ page, setOpen }: {
     const { mutateAsync: updatePageMutation } = useMutation({
         mutationFn: updatePage
     })
+
     const { mutateAsync: deletePageMutation } = useMutation({
         mutationFn: deletePage
     })
+    const { user } = useUser()
 
     const handleNavigate = () => {
         router.push(`/pages/${page.id}`)
@@ -73,7 +76,7 @@ function TrashItem({ page, setOpen }: {
     const handleRestore = async () => {
         try {
 
-            await updatePageMutation({ id: page.id!, isArchived: false })
+            await updatePageMutation({ id: page.id!, isArchived: false, auth_id: user?.id! })
         } finally {
             router.push(`/pages/${page.id}`)
             setOpen(false)
