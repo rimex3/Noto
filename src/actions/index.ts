@@ -58,18 +58,29 @@ export const updatePage = async ({ id, title, content, currentPageId, coverUrl, 
 
 export const deletePage = async ({ id }: { id: string }) => {
     try {
-        await db
-            .delete(pagesTable)
-            .where(eq(pagesTable.id, id));
+        const deleteChildren = async (parentId: string) => {
+            const children = await db.query.pagesTable.findMany({
+                where: (pages, { eq }) => eq(pages.parent_id, parentId),
+            });
+
+            for (const child of children) {
+                await deleteChildren(child.id);
+                await db.delete(pagesTable).where(eq(pagesTable.id, child.id)); // Delete the child page
+            }
+        };
+
+        await deleteChildren(id);
+
+        await db.delete(pagesTable).where(eq(pagesTable.id, id));
 
         revalidatePath("/pages");
         revalidatePath(`/pages/${id}`);
 
-        return { success: true, id };
     } catch (err: any) {
         throw new Error(err);
     }
 };
+
 
 
 export const moveToPage = async ({ id, pageId }: { id: string, pageId: string }) => {
@@ -81,7 +92,7 @@ export const moveToPage = async ({ id, pageId }: { id: string, pageId: string })
             .returning({ id: pagesTable.id });
 
         revalidatePath("/pages");
-        
+
         return { id: data[0].id };
     } catch (err: any) {
         throw new Error(err);

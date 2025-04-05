@@ -43,6 +43,13 @@
       "when": 1743862378554,
       "tag": "0005_broken_black_cat",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1743863619580,
+      "tag": "0006_dear_lightspeed",
+      "breakpoints": true
     }
   ]
 }

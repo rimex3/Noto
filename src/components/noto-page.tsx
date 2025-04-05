@@ -56,7 +56,7 @@ export default function NotoPage({ id, title, icon, children }: NotoPageProps) {
 
 
   const memoizedChildrenList = useMemo(() => {
-    if (!children) return <div className="text-[#989793] text-[13px] w-fit mt-2 ml-3 select-none">
+    if (children.length === 0) return <div className="text-[#989793] text-[13px] w-fit mt-2 ml-3 select-none">
       No pages inside
     </div>
     return children?.map((page) => <NotoPage key={page.id} {...page} />)
