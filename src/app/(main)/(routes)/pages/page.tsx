@@ -1,9 +1,7 @@
 import { db } from "@/db"
 import { usersTable } from "@/db/schema"
 import { getFirstPage } from "@/lib/get-pages"
-import { PageType } from "@/types"
 import { currentUser } from "@clerk/nextjs/server"
-import { GetStaticProps } from "next"
 import { redirect } from "next/navigation"
 
 
@@ -16,7 +14,7 @@ export default async function page() {
         name: user?.fullName || `${user?.firstName || "User-"}${user?.lastName || user?.id}`,
         avatar_url: user?.hasImage ? user?.imageUrl : ""
     }).onConflictDoNothing()
-    
+
     const firstPage = await getFirstPage(user?.id!)
 
 
