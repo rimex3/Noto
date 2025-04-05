@@ -1,5 +1,5 @@
 import { db } from "@/db"
-import { and, isNull, or } from "drizzle-orm";
+import { and } from "drizzle-orm";
 import { cache } from "react"
 
 export const getRootPages = cache(async (userId: string) => {
