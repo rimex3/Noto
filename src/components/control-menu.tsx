@@ -5,6 +5,8 @@ import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover"
 import { icons } from "@/constants/icons"
 import { useMutation } from "@tanstack/react-query"
 import { useUser } from "@clerk/nextjs"
+import { useOrigin } from "@/hooks/use-origin"
+import { toast } from "sonner"
 
 interface ControlMenuProps {
     pageId: string
@@ -17,8 +19,8 @@ export default function ControlMenu({ children, onOpen, open, pageId }: ControlM
     const { mutateAsync } = useMutation({
         mutationFn: updatePage
     })
-    
-    const {user} = useUser()
+    const { user } = useUser()
+    const origin = useOrigin()
     const handleArchive = async () => {
         try {
             await mutateAsync({
@@ -31,13 +33,19 @@ export default function ControlMenu({ children, onOpen, open, pageId }: ControlM
         }
     }
 
+    const handleCopyLink = () => {
+        navigator.clipboard.writeText(`${origin}/pages/${pageId}`)
+        toast.success("Copied block link to clipboard")
+        onOpen?.()
+    }
+
     return (
         <Popover open={open} onOpenChange={onOpen}>
             <PopoverTrigger>
                 {children}
             </PopoverTrigger>
             <PopoverContent className=" w-[265px] min-w-[180px] max-w-[calc(-24px + 100vw)] shadow-none translate-x-2 relative !z-20 p-1 rounded-[6px] ">
-                <div className="hover:bg-[#F3F3F3] transition-colors cursor-pointer rounded-[6px] h-[28px] flex items-center space-x-3 text-[14px] px-[8px]">
+                <div onClick={handleCopyLink} className="hover:bg-[#F3F3F3] transition-colors cursor-pointer rounded-[6px] h-[28px] flex items-center space-x-3 text-[14px] px-[8px]">
                     {icons.link} <span>Copy link</span>
                 </div>
                 <div className="hover:bg-[#F3F3F3] transition-colors cursor-pointer rounded-[6px] h-[28px] flex items-center space-x-3 text-[14px] px-[8px]">

@@ -24,7 +24,7 @@ export const createPage = async ({ title, content, type, auth_id, id, currentPag
     }
 };
 
-export const updatePage = async ({ id, title, content, currentPageId, coverUrl, icon, isArchived, auth_id }: {
+export const updatePage = async ({ id, title, content, currentPageId, coverUrl, icon, isArchived, auth_id, isPublished }: {
     id: string,
     title?: string,
     content?: BlockType[],
@@ -32,7 +32,8 @@ export const updatePage = async ({ id, title, content, currentPageId, coverUrl, 
     coverUrl?: string,
     icon?: string,
     isArchived?: boolean,
-    auth_id?: string
+    auth_id?: string,
+    isPublished?: boolean
 }) => {
     try {
         const data = await db
@@ -43,7 +44,8 @@ export const updatePage = async ({ id, title, content, currentPageId, coverUrl, 
                 updated_at: new Date(),
                 coverUrl,
                 icon,
-                isArchived
+                isArchived,
+                isPublished
             })
             .where(and(eq(pagesTable.id, id), auth_id ? eq(pagesTable.auth_id, auth_id) : undefined))
             .returning({ id: pagesTable.id });

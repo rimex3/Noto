@@ -29,7 +29,7 @@ export default function RootLayout({
               {children}
             </QueryProvider>
           </EdgeStoreProvider>
-          <Toaster />
+          <Toaster position="bottom-center" />
         </body>
       </html>
     </ClerkProvider>
