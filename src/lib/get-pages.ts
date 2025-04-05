@@ -1,5 +1,5 @@
 import { db } from "@/db"
-import { and } from "drizzle-orm";
+import { and, isNull, or } from "drizzle-orm";
 import { cache } from "react"
 
 export const getRootPages = cache(async (userId: string) => {
@@ -67,9 +67,13 @@ export const getChildPages = cache(async (userId: string) => {
 export const getFirstPage = cache(async (userId: string) => {
     'use cache'
     return await db.query.pagesTable.findFirst({
-        where: (pages, { eq, and }) => and(
+        where: (pages, { eq, and, or, isNull }) => and(
             eq(pages.auth_id, userId),
-            eq(pages.isArchived, false)
+            eq(pages.isArchived, false),
+            or(
+                isNull(pages.parent_id)
+            )
         )
     })
+
 })

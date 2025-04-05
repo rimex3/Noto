@@ -99,7 +99,7 @@ function TrashItem({ page, setOpen }: {
                 <div>
                     {page.icon ? <div>{page.icon}</div> : icons.pageEmpty}
                 </div>
-                <div className="text-[14px] text-[#37352F]">
+                <div className="text-[14px] text-[#37352F] w-[100px] truncate">
                     {page.title}
                 </div>
             </div>
