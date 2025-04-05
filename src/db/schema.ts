@@ -4,7 +4,7 @@ import { pgTable, uuid, varchar, timestamp, pgEnum, jsonb } from "drizzle-orm/pg
 export const pageTypeEnum = pgEnum("page_type", ["empty", "tasks"]);
 
 export const usersTable = pgTable("users", {
-    auth_id: varchar("auth_id", { length: 255 }).notNull().unique(),
+    auth_id: varchar("auth_id", { length: 255 }).primaryKey().notNull().unique(),
     name: varchar("name", { length: 255 }).notNull(),
     email: varchar("email", { length: 255 }).notNull().unique(),
     avatar_url: varchar("avatar_url", { length: 500 }),
