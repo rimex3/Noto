@@ -44,7 +44,7 @@ export default function NotoPageHeader({ page }: { page: PageType }) {
                 isEditable ?
                     <Input onBlur={() => setIsEditable(false)} onChange={handleChange} autoFocus defaultValue={page.title || "New page"} className="w-[100px] h-[25px] rounded-[6px]" placeholder="New page" />
                     :
-                    <div onClick={() => setIsEditable(true)} className="hover:bg-[#F0F0EF] transition-colors cursor-pointer rounded-[6px] w-fit px-3 space-x-1 text-[15px]">
+                    <div onClick={() => setIsEditable(true)} className="hover:bg-[#F0F0EF] transition-colors cursor-pointer rounded-[6px] w-fit max-w-[150px] truncate px-3 space-x-1 text-[15px]">
                         <span>
                             {page.icon}
                         </span>

@@ -27,7 +27,6 @@ export default function RootLayout({
         >
           <EdgeStoreProvider>
             <QueryProvider>
-              <ModalProvider />
               {children}
             </QueryProvider>
           </EdgeStoreProvider>

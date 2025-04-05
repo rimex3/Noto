@@ -57,7 +57,7 @@ const PlusSmallIcon = () => (
 const EllipsisSmallIcon = () => (
     <svg
         xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 16 16"
+        viewBox="0 0 16 13"
         className="ellipsisSmall"
         style={{ width: 17, height: 17, display: "block", fill: "rgba(71, 70, 68, 0.6)", flexShrink: 0 }}
         width="17"
@@ -279,6 +279,17 @@ const ChevronDownRoundedThick = () => (
 )
 
 
+const SearchIcon = () => (
+    <svg xmlnsXlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"
+        role="graphics-symbol" viewBox="0 0 20 20" className="newSidebarSearch"
+        style={{ width: 20, height: 20, display: 'block', fill: 'rgb(145, 145, 142)', flexShrink: 0 }}
+        width="20" height="20">
+        <path fillRule="evenodd" clipRule="evenodd"
+            d="M4 8.75C4 6.12665 6.12665 4 8.75 4C11.3734 4 13.5 6.12665 13.5 8.75C13.5 11.3734 11.3734 13.5 8.75 13.5C6.12665 13.5 4 11.3734 4 8.75ZM8.75 2.5C5.29822 2.5 2.5 5.29822 2.5 8.75C2.5 12.2018 5.29822 15 8.75 15C10.2056 15 11.545 14.5024 12.6073 13.668L16.7197 17.7803C17.0126 18.0732 17.4874 18.0732 17.7803 17.7803C18.0732 17.4874 18.0732 17.0126 17.7803 16.7197L13.668 12.6073C14.5024 11.545 15 10.2056 15 8.75C15 5.29822 12.2018 2.5 8.75 2.5Z"
+            fill="#91918E" />
+    </svg>
+)
+
 export const icons = {
     home: <HomeIcon />,
     compose: <ComposeIcon />,
@@ -294,4 +305,5 @@ export const icons = {
     undo: <UndoIcon />,
     eyes: <EyesIcon />,
     chevronDownRoundedThick: <ChevronDownRoundedThick />,
+    search: <SearchIcon />
 } as const;

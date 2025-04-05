@@ -56,7 +56,7 @@ export default function NotoPage({ id, title, icon, children }: NotoPageProps) {
 
 
   const memoizedChildrenList = useMemo(() => {
-    if (children?.length === 0) return <div className="text-[#989793] text-[13px] w-fit mt-2 ml-3 select-none">
+    if (children?.length === 0) return <div className="text-[#989793] text-[13px] w-fit mt-1 ml-3 select-none">
       No pages inside
     </div>
     return children?.map((page) => <NotoPage key={page.id} {...page} />)
@@ -65,7 +65,7 @@ export default function NotoPage({ id, title, icon, children }: NotoPageProps) {
   return (
     <>
       <Link prefetch href={`/pages/${id}`}>
-        <SidebarItem className={cn("hover:!text-[#5E5C57] text-[#91918E] text-[13px] font-semibold px-2 group", pathname.includes(id!) ? "bg-[#F0F0EF] text-[#5E5C57]" : "")} >
+        <SidebarItem className={cn("hover:!text-[#5E5C57] text-[#91918E] text-[13px] font-semibold px-2 group truncate ", pathname.includes(id!) ? "bg-[#F0F0EF] text-[#5E5C57]" : "")} >
           <div className="flex items-center space-x-2">
             <div className="relative w-5 h-5 group">
               <div className="absolute inset-0 transition-opacity duration-200 group-hover:opacity-0 flex items-center justify-center">
@@ -84,7 +84,7 @@ export default function NotoPage({ id, title, icon, children }: NotoPageProps) {
                 </span>
               </div>
             </div>
-            <div>
+            <div className="truncate text-[#5E5C57] w-[150px]">
               {currentTitle || "New page"}
             </div>
           </div>

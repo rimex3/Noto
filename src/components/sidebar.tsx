@@ -4,6 +4,7 @@ import SidebarItem from "./sidebar-item";
 import UserAvatar from "./user-avatar";
 import { Separator } from "./ui/separator";
 import TrashList from "./trash-list";
+import SearchItem from "./search-item";
 
 export default function Sidebar() {
     return (
@@ -11,25 +12,12 @@ export default function Sidebar() {
             <div>
                 <UserAvatar />
                 <SidebarItem>
-                    <div className="flex items-center space-x-1">
+                    <div className="flex items-center space-x-1 text-[#5E5C57] font-medium text-[13px]">
                         <span>{icons.home}</span> <span>Home</span>
                     </div>
                 </SidebarItem>
-                <SidebarItem>
-                    <div className="flex items-center space-x-1">
-                        <span>{icons.home}</span> <span>Home</span>
-                    </div>
-                </SidebarItem>
-                <SidebarItem>
-                    <div className="flex items-center space-x-1">
-                        <span>{icons.home}</span> <span>Home</span>
-                    </div>
-                </SidebarItem>
-                <SidebarItem>
-                    <div className="flex items-center space-x-1">
-                        <span>{icons.home}</span> <span>Home</span>
-                    </div>
-                </SidebarItem>
+
+                <SearchItem />
             </div>
             <div className="px-3">
                 <Separator className="my-5 " />

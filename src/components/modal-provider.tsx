@@ -1,8 +1,10 @@
 'use client'
 
 import { useEffect, useState } from "react"
+import SearchModal from "./search-modal"
+import { PageType } from "@/types"
 
-export default function ModalProvider() {
+export default function ModalProvider({ pages }: { pages: PageType[] }) {
     const [isMounted, setIsMounted] = useState(false)
 
     useEffect(() => {
@@ -13,6 +15,7 @@ export default function ModalProvider() {
 
     return (
         <>
+            <SearchModal pages={pages} />
         </>
     )
 }
