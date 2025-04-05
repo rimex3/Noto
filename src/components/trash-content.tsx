@@ -39,7 +39,7 @@ export default function TrashContent({ trash, setOpen }: TrashContentProps) {
                                 {icons.trash}
                             </span>
                             <span className="text-[#5E5C57] text-[14px]">
-                                No results
+                                Trashed pages appear here
                             </span>
                         </div>
                     ) : (
@@ -85,7 +85,7 @@ function TrashItem({ page, setOpen }: {
         try {
             await deletePageMutation({ id: page.id! })
         } finally {
-            router.push(`/pages/${page.id}`)
+            router.push(`/pages`)
             setOpen(false)
         }
     }

@@ -18,12 +18,19 @@ export default function DeletedBanner() {
     })
 
     const handleRestore = async () => {
-        await updatePageMutation({ id: pageId?.[0]!, isArchived: false })
-        router.push(`/pages/${pageId?.[0]}`)
+        try {
+            await updatePageMutation({ id: pageId?.[0]!, isArchived: false })
+        } finally {
+            router.push(`/pages/${pageId?.[0]}`)
+        }
     }
 
     const handleDelete = async () => {
-        await deletePageMutation({ id: pageId?.[0]! })
+        try {
+            await deletePageMutation({ id: pageId?.[0]! })
+        } finally {
+            router.push(`/pages/`)
+        }
     }
 
     return (
