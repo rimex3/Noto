@@ -4,7 +4,7 @@ import { PageType } from "@/types"
 import { Input } from "./ui/input"
 import { icons } from "@/constants/icons"
 import NotoTooltip from "./noto-tooltip"
-import { ChangeEvent, useMemo, useState } from "react"
+import { ChangeEvent, Dispatch, SetStateAction, useMemo, useState } from "react"
 import { useRouter } from "next/navigation"
 import { useMutation } from "@tanstack/react-query"
 import { deletePage, updatePage } from "@/actions"
@@ -12,10 +12,10 @@ import { cn } from "@/lib/cn"
 
 interface TrashContentProps {
     trash: PageType[]
-    onOpen: () => void
+    setOpen: Dispatch<SetStateAction<boolean>>
 }
 
-export default function TrashContent({ trash, onOpen }: TrashContentProps) {
+export default function TrashContent({ trash, setOpen }: TrashContentProps) {
     const [search, setSearch] = useState("")
 
     const handleSearch = (e: ChangeEvent<HTMLInputElement>) => {
@@ -23,8 +23,8 @@ export default function TrashContent({ trash, onOpen }: TrashContentProps) {
     }
 
     const trashContent = useMemo(() => {
-        return trash.filter(page => page.title?.toLowerCase().includes(search.toLowerCase())).map((page) => (<TrashItem key={page.id} page={page} onOpen={onOpen} />))
-    }, [search, onOpen, trash])
+        return trash.filter(page => page.title?.toLowerCase().includes(search.toLowerCase())).map((page) => (<TrashItem key={page.id} page={page} setOpen={setOpen} />))
+    }, [search, trash])
 
     return (
         <>
@@ -54,7 +54,9 @@ export default function TrashContent({ trash, onOpen }: TrashContentProps) {
 }
 
 
-function TrashItem({ page, onOpen }: { page: PageType, onOpen?: () => void }) {
+function TrashItem({ page, setOpen }: {
+    page: PageType, setOpen: Dispatch<SetStateAction<boolean>>
+}) {
     const router = useRouter()
     const { mutateAsync: updatePageMutation } = useMutation({
         mutationFn: updatePage
@@ -65,11 +67,17 @@ function TrashItem({ page, onOpen }: { page: PageType, onOpen?: () => void }) {
 
     const handleNavigate = () => {
         router.push(`/pages/${page.id}`)
+        setOpen(false)
     }
 
     const handleRestore = async () => {
-        await updatePageMutation({ id: page.id!, isArchived: false })
-        router.push(`/pages/${page.id}`)
+        try {
+
+            await updatePageMutation({ id: page.id!, isArchived: false })
+        } finally {
+            router.push(`/pages/${page.id}`)
+            setOpen(false)
+        }
 
     }
 
@@ -77,7 +85,8 @@ function TrashItem({ page, onOpen }: { page: PageType, onOpen?: () => void }) {
         try {
             await deletePageMutation({ id: page.id! })
         } finally {
-            onOpen?.()
+            router.push(`/pages/${page.id}`)
+            setOpen(false)
         }
     }
 
