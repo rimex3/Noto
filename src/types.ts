@@ -11,4 +11,5 @@ export type PageType = {
     coverUrl?: string
     create_at?: Date
     updated_at?: Date
+    children: PageType[]
 } 

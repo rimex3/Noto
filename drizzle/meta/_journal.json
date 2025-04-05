@@ -36,6 +36,13 @@
       "when": 1743784392414,
       "tag": "0004_broad_boomerang",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1743862378554,
+      "tag": "0005_broken_black_cat",
+      "breakpoints": true
     }
   ]
 }

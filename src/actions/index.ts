@@ -70,3 +70,38 @@ export const deletePage = async ({ id }: { id: string }) => {
         throw new Error(err);
     }
 };
+
+
+export const moveToPage = async ({ id, pageId }: { id: string, pageId: string }) => {
+    try {
+        const data = await db
+            .update(pagesTable)
+            .set({ parent_id: pageId })
+            .where(eq(pagesTable.id, id))
+            .returning({ id: pagesTable.id });
+
+        revalidatePath("/pages");
+        
+        return { id: data[0].id };
+    } catch (err: any) {
+        throw new Error(err);
+    }
+};
+
+export const createPageInside = async ({ parentId, auth_id }: { parentId: string, auth_id: string }) => {
+    try {
+        await db
+            .insert(pagesTable)
+            .values({
+                auth_id,
+                title: "New Page",
+                parent_id: parentId,
+            })
+            .returning({ id: pagesTable.id });
+
+        revalidatePath("/pages");
+        revalidatePath(`/pages/${parentId}`);
+    } catch (err: any) {
+        throw new Error(err);
+    }
+};
