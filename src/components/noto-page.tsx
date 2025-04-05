@@ -45,7 +45,7 @@ export default function NotoPage({ id, title, icon }: NotoPageProps) {
         </div>
         <div className="flex items-center space-x-1 relative ">
           <NotoTooltip content="Delete, duplicate, and more...">
-            <ControlMenu open={open} onOpen={onOpen}>
+            <ControlMenu pageId={id!} open={open} onOpen={onOpen}>
               <div
                 className="hover:bg-[#E8E8E8] h-[20px] w-[20px] rounded-[4px] flex items-center justify-center transition-all opacity-0 group-hover:opacity-100 cursor-pointer"
 

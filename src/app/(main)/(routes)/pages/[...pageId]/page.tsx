@@ -1,4 +1,5 @@
 
+import NotFound from "@/components/not-found";
 import NotoPageContent from "@/components/noto-page-content";
 import NotoPageCover from "@/components/noto-page-cover";
 import NotoPageHeader from "@/components/noto-page-header";
@@ -14,6 +15,8 @@ export default async function page({ params }: { params: Promise<{ pageId: strin
     const { pageId } = await params
     const page = await getPageById(pageId)
     const user = await currentUser()
+
+    if (!page) return <NotFound />
 
     return (
         <div className="w-full ml-[18.7rem]">

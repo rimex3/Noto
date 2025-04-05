@@ -7,13 +7,13 @@ import { useMutation } from "@tanstack/react-query"
 import { useParams } from "next/navigation"
 
 interface ControlMenuProps {
+    pageId: string
     children: React.ReactNode
     onOpen?: () => void
     open?: boolean
 }
 
-export default function ControlMenu({ children, onOpen, open }: ControlMenuProps) {
-    const { pageId } = useParams()
+export default function ControlMenu({ children, onOpen, open, pageId }: ControlMenuProps) {
     const { mutateAsync } = useMutation({
         mutationFn: updatePage
     })
@@ -21,7 +21,7 @@ export default function ControlMenu({ children, onOpen, open }: ControlMenuProps
     const handleArchive = async () => {
         try {
             await mutateAsync({
-                id: pageId?.[0]!,
+                id: pageId,
                 isArchived: true
             })
         } finally {
