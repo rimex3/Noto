@@ -23,11 +23,11 @@ type NotoEditorProps = {
     autoFocus?: boolean;
     initialContent?: BlockType[];
     setDocuments: Dispatch<SetStateAction<BlockType[]>>
-} & {
     setIsEditorFocused: Dispatch<SetStateAction<boolean>>;
-};
+    editable?: boolean
+}
 
-export default function NotoEditor({ autoFocus, setIsEditorFocused, initialContent, setDocuments }: NotoEditorProps) {
+export default function NotoEditor({ autoFocus, setIsEditorFocused, initialContent, setDocuments, editable }: NotoEditorProps) {
     const { edgestore } = useEdgeStore();
 
     const handleUpload = async (file: File) => {
@@ -55,7 +55,7 @@ export default function NotoEditor({ autoFocus, setIsEditorFocused, initialConte
         }
     }, [autoFocus, editor]);
 
-    
+
 
     useEffect(() => {
         if (!editor) return;
@@ -74,6 +74,6 @@ export default function NotoEditor({ autoFocus, setIsEditorFocused, initialConte
         title="Noto Editor"
         autoFocus={autoFocus}
         onBlur={() => setIsEditorFocused(false)}
-
+        editable={editable}
     />;
 }

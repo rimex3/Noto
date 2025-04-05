@@ -22,6 +22,7 @@ export const pagesTable = pgTable("pages", {
     coverUrl: varchar("cover_url", { length: 500 }),
     icon: varchar("emoji", { length: 255 }),
     isArchived: boolean("is_archived").default(false),
+    isPublished: boolean("is_published").default(false),
     created_at: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
     updated_at: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
 }, (table) => {

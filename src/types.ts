@@ -5,6 +5,7 @@ export type PageType = {
     id?: string
     auth_id?: string,
     title?: string,
+    isArchived?: boolean
     content?: BlockType[]
     type?: 'empty' | 'tasks'
     icon?: string

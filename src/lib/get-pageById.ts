@@ -1,8 +1,11 @@
 import { db } from "@/db";
 import { cache } from "react";
 
-export const getPageById = cache(async (pageId: string) => {
+export const getPageById = cache(async (pageId: string, userId: string) => {
     return await db.query.pagesTable.findFirst({
-        where: (pages, { eq }) => eq(pages.id, pageId),
+        where: (pages, { eq, and }) => and(
+            eq(pages.id, pageId),
+            eq(pages.auth_id, userId)
+        ),
     });
 })

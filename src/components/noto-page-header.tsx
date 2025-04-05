@@ -9,6 +9,7 @@ import { useMutation } from "@tanstack/react-query"
 import { updatePage } from "@/actions"
 import { useDocuments } from "@/hooks/use-documents"
 import { useUser } from "@clerk/nextjs"
+import PublishMenu from "./publish-menu"
 
 export default function NotoPageHeader({ page }: { page: PageType }) {
     const [isEditable, setIsEditable] = useState(false)
@@ -45,23 +46,41 @@ export default function NotoPageHeader({ page }: { page: PageType }) {
     return (
         <div className="h-[44px] pl-[12px] pr-[10px] flex items-center justify-between overflow-hidden sticky left-0 top-0 z-50 bg-white ">
             {
-                isEditable ?
-                    <Input onBlur={() => setIsEditable(false)} onChange={handleChange} autoFocus defaultValue={page.title || "New page"} className="w-[100px] h-[25px] rounded-[6px]" placeholder="New page" />
-                    :
-                    <div onClick={() => setIsEditable(true)} className="hover:bg-[#F0F0EF] transition-colors cursor-pointer rounded-[6px] w-fit max-w-[150px] truncate px-3 space-x-1 text-[15px]">
-                        <span>
-                            {page.icon}
-                        </span>
-                        <span>
-                            {newTitle || "New page"}
-                        </span>
-                    </div>
+                !page.isArchived ? <>
+                    {
+                        isEditable ?
+                            <Input onBlur={() => setIsEditable(false)} onChange={handleChange} autoFocus defaultValue={page.title || "New page"} className="w-[100px] h-[25px] rounded-[6px]" placeholder="New page" />
+                            :
+                            <div onClick={() => setIsEditable(true)} className="hover:bg-[#F0F0EF] transition-colors cursor-pointer rounded-[6px] w-fit max-w-[150px] truncate py-[2px] px-3 space-x-1 text-[15px]">
+                                <span>
+                                    {page.icon}
+                                </span>
+                                <span>
+                                    {newTitle || "New page"}
+                                </span>
+                            </div>
+                    }
+                </> : <div className="hover:bg-[#F0F0EF] transition-colors cursor-pointer rounded-[6px] w-fit max-w-[150px] truncate py-[2px] px-3 space-x-1 text-[15px]">
+                    <span>
+                        {page.icon}
+                    </span>
+                    <span>
+                        {newTitle || "New page"}
+                    </span>
+                </div>
             }
 
-            <div className="text-[#9E9A97] px-7">
-                {
-                    isSaving ? "saving..." : "saved"
-                }
+            <div className="flex items-center px-5">
+                <div className="text-[#9E9A97] px-3">
+                    {
+                        isSaving ? "Editing..." : "Edited"
+                    }
+                </div>
+                <PublishMenu>
+                    <div className="hover:bg-[#F0F0EF] transition-colors cursor-pointer rounded-[6px] w-fit max-w-[150px] truncate py-[2px] px-3 space-x-1 text-[15px]">
+                        Share
+                    </div>
+                </PublishMenu>
             </div>
         </div>
     )

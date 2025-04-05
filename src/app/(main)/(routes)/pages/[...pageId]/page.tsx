@@ -14,8 +14,8 @@ import { currentUser } from "@clerk/nextjs/server";
 
 export default async function page({ params }: { params: Promise<{ pageId: string }> }) {
     const { pageId } = await params
-    const page = await getPageById(pageId)
     const user = await currentUser()
+    const page = await getPageById(pageId, user?.id!)
 
     if (!page) return <NotFound />
 

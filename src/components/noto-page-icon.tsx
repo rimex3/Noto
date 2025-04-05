@@ -33,7 +33,7 @@ export default function NotoPageIcon({ page }: NotoPageIconProps) {
     }, [pageId, mutateAsync, user?.id])
 
     return (
-        <IconPicker
+        !page.isArchived ? <IconPicker
             asChild
             onEmojiChange={handleUpdateIcon}
             open={open}
@@ -42,6 +42,8 @@ export default function NotoPageIcon({ page }: NotoPageIconProps) {
             <div className="absolute text-[5rem] -left-[165px] -top-[90px] select-none w-fit cursor-pointer">
                 {page?.icon}
             </div>
-        </IconPicker>
+        </IconPicker> : <div className="absolute text-[5rem] -left-[165px] -top-[90px] select-none w-fit cursor-pointer">
+            {page?.icon}
+        </div>
     )
 }
