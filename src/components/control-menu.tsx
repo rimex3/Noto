@@ -34,7 +34,7 @@ export default function ControlMenu({ children, onOpen, open, pageId }: ControlM
     }
 
     const handleCopyLink = () => {
-        navigator.clipboard.writeText(`${origin}/pages/${pageId}`)
+        navigator.clipboard.writeText(`${origin}/pages/public/${pageId}`)
         toast.success("Copied block link to clipboard")
         onOpen?.()
     }

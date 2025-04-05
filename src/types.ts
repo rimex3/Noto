@@ -10,6 +10,7 @@ export type PageType = {
     type?: 'empty' | 'tasks'
     icon?: string
     coverUrl?: string
+    isPublished?: boolean
     create_at?: Date
     updated_at?: Date
     children?: PageType[]

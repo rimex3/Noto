@@ -62,7 +62,7 @@ export default function NotoPageTitleEditor({ page }: NotoPageTitleEditorProps) 
   return (
     <div className={cn("group w-fit h-fit", page.coverUrl ? "mt-3" : "mt-7")}>
       {
-        !page.isArchived && <div className="flex items-center opacity-0 group-hover:opacity-100 transition-all">
+        !page.isArchived && page.auth_id === user?.id && <div className="flex items-center opacity-0 group-hover:opacity-100 transition-all">
           {!page.icon && (
             <div onClick={updateRandomIcon} className="flex items-center w-fit py-1 px-2 cursor-pointer rounded-[6px] hover:bg-[#f3f3f3] transition-colors">
               <div>{icons.emoji}</div>
@@ -79,21 +79,24 @@ export default function NotoPageTitleEditor({ page }: NotoPageTitleEditorProps) 
       }
 
       {
-        !page.isArchived ? <Input
-          className="border-none shadow-none focus:!outline-none focus:!ring-0 placeholder:text-[#E1E1E0] placeholder:text-[40px] placeholder:font-bold h-[80px] !text-[40px] !text-[#37352F] font-bold p-0 !rounded-none"
-          onChange={(e) => {
-            const value = e.target.value;
-            debouncedTitleChange(value);
-            document.setTitle(value, pageId!);
-          }}
-          value={document.title || ""}
-          placeholder="New Page"
-        /> :
-          <div
-            className="border-none shadow-none focus:!outline-none focus:!ring-0 placeholder:text-[#E1E1E0] placeholder:text-[40px] placeholder:font-bold h-[80px] !text-[40px] !text-[#37352F] font-bold p-0 !rounded-none w-[500px] truncate"
-          >
-            {document.title || "New Page"}
-          </div>
+        !page.isArchived && page.auth_id === user?.id
+          ? <Input
+            className="border-none shadow-none focus:!outline-none focus:!ring-0 placeholder:text-[#E1E1E0] placeholder:text-[40px] placeholder:font-bold h-[80px] !text-[40px] !text-[#37352F] font-bold p-0 !rounded-none"
+            onChange={(e) => {
+              const value = e.target.value;
+              debouncedTitleChange(value);
+              document.setTitle(value, pageId!);
+            }}
+            value={document.title || ""}
+            placeholder="New Page"
+          /> :
+          <Input
+            className="border-none shadow-none focus:!outline-none focus:!ring-0 placeholder:text-[#E1E1E0] placeholder:text-[40px] placeholder:font-bold h-[80px] !text-[40px] !text-[#37352F] font-bold p-0 !rounded-none"
+            readOnly
+            value={document.title || ""}
+            placeholder="New Page"
+          />
+
       }
     </div>
   );

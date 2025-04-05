@@ -55,7 +55,7 @@ export default function NotoPageContent({ pageId, page }: { pageId: string, page
                             setIsEditorFocused={setIsEditorFocused}
                             initialContent={page.content}
                             setDocuments={setDocuments}
-                            editable={!page.isArchived}
+                            editable={!page.isArchived && page.auth_id === user?.id} 
                         />
                     </div>
                 </div>

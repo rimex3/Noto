@@ -46,7 +46,7 @@ export default function NotoPageHeader({ page }: { page: PageType }) {
     return (
         <div className="h-[44px] pl-[12px] pr-[10px] flex items-center justify-between overflow-hidden sticky left-0 top-0 z-50 bg-white ">
             {
-                !page.isArchived ? <>
+                !page.isArchived && page.auth_id === user?.id ? <>
                     {
                         isEditable ?
                             <Input onBlur={() => setIsEditable(false)} onChange={handleChange} autoFocus defaultValue={page.title || "New page"} className="w-[100px] h-[25px] rounded-[6px]" placeholder="New page" />
@@ -76,11 +76,13 @@ export default function NotoPageHeader({ page }: { page: PageType }) {
                         isSaving ? "Editing..." : "Edited"
                     }
                 </div>
-                <PublishMenu>
-                    <div className="hover:bg-[#F0F0EF] transition-colors cursor-pointer rounded-[6px] w-fit max-w-[150px] truncate py-[2px] px-3 space-x-1 text-[15px]">
-                        Share
-                    </div>
-                </PublishMenu>
+                {
+                    page.auth_id === user?.id && !page.isArchived && <PublishMenu page={page}>
+                        <div className="hover:bg-[#F0F0EF] transition-colors cursor-pointer rounded-[6px] w-fit max-w-[150px] truncate py-[2px] px-3 space-x-1 text-[15px]">
+                            Share
+                        </div>
+                    </PublishMenu>
+                }
             </div>
         </div>
     )

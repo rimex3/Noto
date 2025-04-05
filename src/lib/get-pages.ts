@@ -65,7 +65,6 @@ export const getChildPages = cache(async (userId: string) => {
 
 
 export const getFirstPage = cache(async (userId: string) => {
-    'use cache'
     return await db.query.pagesTable.findFirst({
         where: (pages, { eq, and, or, isNull }) => and(
             eq(pages.auth_id, userId),
