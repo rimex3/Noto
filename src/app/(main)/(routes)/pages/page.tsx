@@ -1,3 +1,4 @@
+import { createPage } from "@/actions"
 import { db } from "@/db"
 import { usersTable } from "@/db/schema"
 import { getFirstPage } from "@/lib/get-pages"
@@ -16,6 +17,15 @@ export default async function page() {
     }).onConflictDoNothing()
 
     const firstPage = await getFirstPage(user?.id!)
+
+    if (!firstPage?.id) {
+        const data = await createPage({
+            title: "New Page",
+            auth_id: user?.id!
+        })
+
+        return redirect(`/pages/${data.id}`)
+    }
 
 
     return redirect(`/pages/${firstPage?.id}`)
