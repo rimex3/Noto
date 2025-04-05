@@ -4,7 +4,6 @@ import { updatePage } from "@/actions"
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover"
 import { icons } from "@/constants/icons"
 import { useMutation } from "@tanstack/react-query"
-import { useParams } from "next/navigation"
 
 interface ControlMenuProps {
     pageId: string

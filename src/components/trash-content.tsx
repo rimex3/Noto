@@ -8,6 +8,7 @@ import { ChangeEvent, useMemo, useState } from "react"
 import { useRouter } from "next/navigation"
 import { useMutation } from "@tanstack/react-query"
 import { deletePage, updatePage } from "@/actions"
+import { cn } from "@/lib/cn"
 
 interface TrashContentProps {
     trash: PageType[]
@@ -23,17 +24,17 @@ export default function TrashContent({ trash, onOpen }: TrashContentProps) {
 
     const trashContent = useMemo(() => {
         return trash.filter(page => page.title?.toLowerCase().includes(search.toLowerCase())).map((page) => (<TrashItem key={page.id} page={page} onOpen={onOpen} />))
-    }, [search])
+    }, [search, onOpen, trash])
 
     return (
         <>
             <div className="py-[4px] px-[8px] mt-[10px]">
                 <Input onChange={handleSearch} className="h-[28px] !ring-[#B2D4F5] rounded-[6px]" placeholder="Search pages in trash" />
             </div>
-            <div className="min-h-[200px] w-full flex items-start justify-center mt-4 px-[8px]">
+            <div className={cn("min-h-[200px] w-full mt-4 px-[8px]", trash.length === 0 && "flex items-center justify-center")}>
                 {
-                    trash.length < 0 ? (
-                        <div className="w-full flex flex-col items-center justify-center mx-auto">
+                    trash.length === 0 ? (
+                        <div className="w-full flex flex-col items-center  justify-center h-fit max-h-[250px] mx-auto">
                             <span className="text-[#CECBC8] ">
                                 {icons.trash}
                             </span>
@@ -67,12 +68,9 @@ function TrashItem({ page, onOpen }: { page: PageType, onOpen?: () => void }) {
     }
 
     const handleRestore = async () => {
-        try {
-            await updatePageMutation({ id: page.id!, isArchived: false })
-            router.push(`/pages/${page.id}`)
-        } finally {
-            onOpen?.()
-        }
+        await updatePageMutation({ id: page.id!, isArchived: false })
+        router.push(`/pages/${page.id}`)
+
     }
 
     const handleDelete = async () => {
@@ -96,7 +94,7 @@ function TrashItem({ page, onOpen }: { page: PageType, onOpen?: () => void }) {
 
             <div className="flex items-center space-x-[2px]">
                 <NotoTooltip content="Restore">
-                    <div onClick={handleRestore} className="hover:bg-[#E8E8E8] p-[4px] rounded-[6px] transition-colors">
+                    <div onClick={handleRestore} className="hover:bg-[#E8E8E8] text-[#9F9E9B] p-[4px] rounded-[6px] transition-colors">
                         {icons.undo}
                     </div>
                 </NotoTooltip>

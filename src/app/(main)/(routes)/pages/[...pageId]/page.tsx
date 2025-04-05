@@ -1,4 +1,5 @@
 
+import DeletedBanner from "@/components/deleted-banner";
 import NotFound from "@/components/not-found";
 import NotoPageContent from "@/components/noto-page-content";
 import NotoPageCover from "@/components/noto-page-cover";
@@ -20,8 +21,12 @@ export default async function page({ params }: { params: Promise<{ pageId: strin
 
     return (
         <div className="w-full ml-[18.7rem]">
+
             <div>
                 <NotoPageHeader page={page as any} />
+                {
+                    page.isArchived && <DeletedBanner />
+                }
                 {
                     page?.coverUrl && <NotoPageCover page={page as any} />
                 }
