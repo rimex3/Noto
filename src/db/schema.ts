@@ -1,5 +1,5 @@
 import { boolean, foreignKey } from "drizzle-orm/pg-core";
-import { pgTable, uuid, varchar, timestamp, pgEnum, jsonb, AnyPgColumn } from "drizzle-orm/pg-core";
+import { pgTable, uuid, varchar, timestamp, pgEnum, jsonb } from "drizzle-orm/pg-core";
 
 export const pageTypeEnum = pgEnum("page_type", ["empty", "tasks"]);
 

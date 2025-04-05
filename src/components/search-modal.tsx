@@ -2,7 +2,6 @@
 
 import { useSearch } from "@/hooks/use-search";
 import {
-    Command,
     CommandDialog,
     CommandEmpty,
     CommandGroup,
@@ -10,24 +9,31 @@ import {
     CommandItem,
     CommandList,
     CommandSeparator,
-    CommandShortcut,
 } from "@/components/ui/command"
 
-import {
-    Calculator,
-    Calendar,
-    CreditCard,
-    Settings,
-    Smile,
-    User,
-} from "lucide-react"
+
 import { PageType } from "@/types";
 import { icons } from "@/constants/icons";
 import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 export default function SearchModal({ pages }: { pages: PageType[] }) {
     const search = useSearch()
     const router = useRouter()
+
+    const onOpen = useSearch(store => store.onOpen)
+
+    useEffect(() => {
+        const down = (e: KeyboardEvent) => {
+            if (e.key === "k" && (e.metaKey || e.ctrlKey)) {
+                e.preventDefault();
+                onOpen();
+            }
+        }
+
+        document.addEventListener("keydown", down);
+        return () => document.removeEventListener("keydown", down);
+    }, [onOpen]);
 
     const onSelect = (id: string) => {
         router.push(`/pages/${id}`)

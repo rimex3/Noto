@@ -24,7 +24,7 @@ export default function TrashContent({ trash, setOpen }: TrashContentProps) {
 
     const trashContent = useMemo(() => {
         return trash.filter(page => page.title?.toLowerCase().includes(search.toLowerCase())).map((page) => (<TrashItem key={page.id} page={page} setOpen={setOpen} />))
-    }, [search, trash])
+    }, [search, trash, setOpen])
 
     return (
         <>

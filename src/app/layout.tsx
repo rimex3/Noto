@@ -6,7 +6,6 @@ import "./globals.css";
 import { EdgeStoreProvider } from "@/lib/edgestore";
 import QueryProvider from "@/components/query-provider";
 import { Toaster } from 'sonner'
-import ModalProvider from "@/components/modal-provider";
 
 export const metadata: Metadata = {
   title: "Noto",
