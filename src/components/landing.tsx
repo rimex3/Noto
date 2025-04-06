@@ -37,9 +37,18 @@ export default function Landing() {
                             </Link>
                         </SignedIn>
                     </div>
-                    <div>
-                        <Image src="/images/landing.webp" alt="landing" loading={undefined} width={1000} height={1000} draggable={false} className="select-none" />
+                    <div className="relative w-[500px] h-[500px] max-w-full">
+                        <Image
+                            src="/images/landing.webp"
+                            alt="landing"
+                            fill
+                            sizes="(max-width: 768px) 100vw, 500px"
+                            priority
+                            className="object-contain select-none"
+                            draggable={false}
+                        />
                     </div>
+
                 </div>
             </div>
         </section>
