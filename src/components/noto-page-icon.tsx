@@ -7,6 +7,7 @@ import { useMutation } from "@tanstack/react-query"
 import { updatePage } from "@/actions"
 import { useCallback, useState } from "react"
 import { useUser } from "@clerk/nextjs"
+import { useIcon } from "@/hooks/use-icon"
 
 type NotoPageIconProps = {
     page: PageType
@@ -14,9 +15,9 @@ type NotoPageIconProps = {
 
 export default function NotoPageIcon({ page }: NotoPageIconProps) {
     const [open, setOpen] = useState(false)
-    const { pageId } = useParams()
     const { mutateAsync } = useMutation({ mutationFn: updatePage })
     const { user } = useUser()
+    const emoji = useIcon()
 
 
     const onOpen = () => {
@@ -24,13 +25,14 @@ export default function NotoPageIcon({ page }: NotoPageIconProps) {
     }
 
     const handleUpdateIcon = useCallback(async (icon: string) => {
+        emoji.setIcon(icon, page.id!)
         await mutateAsync({
-            id: pageId?.[0]!,
+            id: page.id!,
             icon,
             auth_id: user?.id
         })
         setOpen(false)
-    }, [pageId, mutateAsync, user?.id])
+    }, [mutateAsync, user?.id])
 
     return (
         (page.auth_id === user?.id) ? <>
@@ -43,14 +45,14 @@ export default function NotoPageIcon({ page }: NotoPageIconProps) {
                     onOpen={onOpen}
                 >
                     <div className="absolute text-[5rem] -left-[165px] -top-[90px] select-none w-fit cursor-pointer">
-                        {page?.icon}
+                        {(emoji.pageId === page.id && emoji.icon) || page?.icon}
                     </div>
                 </IconPicker> : <div className="absolute text-[5rem] -left-[165px] -top-[90px] select-none w-fit cursor-pointer">
-                    {page?.icon}
+                    {(emoji.pageId === page.id && emoji.icon) || page?.icon}
                 </div>
             }
         </> : <div className="absolute text-[5rem] -left-[165px] -top-[90px] select-none w-fit cursor-pointer">
-            {page?.icon}
+            {(emoji.pageId === page.id && emoji.icon) || page?.icon}
         </div>
     )
 }

@@ -9,6 +9,7 @@ import { useMutation } from '@tanstack/react-query';
 import { updatePage } from '@/actions';
 import { useParams } from 'next/navigation';
 import { useUser } from '@clerk/nextjs';
+import { useIcon } from '@/hooks/use-icon';
 
 interface IconPickerProps {
     onOpen?: () => void
@@ -27,17 +28,16 @@ const IconPicker = memo(({ children, onEmojiChange, asChild, open, onOpen }: Ico
         mutationFn: updatePage
     })
     const { user } = useUser()
+    const emoji = useIcon()
 
     const handleDeleteIcon = async () => {
-        try {
-            await mutateAsync({
-                id: pageId?.[0]!,
-                icon: "",
-                auth_id: user?.id!
-            })
-        } finally {
-            onOpen?.()
-        }
+        emoji.setIcon(" ", pageId?.[0]!)
+        onOpen?.()
+        await mutateAsync({
+            id: pageId?.[0]!,
+            icon: "",
+            auth_id: user?.id!
+        })
     }
     return (
         <Popover open={open} onOpenChange={onOpen}>

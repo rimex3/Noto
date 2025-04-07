@@ -49,8 +49,9 @@ export function CoverImage({ children }: CoverImageProps) {
                     options: { replaceTargetUrl: coverImage.url },
                 });
 
-                await mutateAsync({ id: pageId[0], coverUrl: res.url, auth_id: user?.id! });
                 coverImage.onReplace(res.url);
+
+                await mutateAsync({ id: pageId[0], coverUrl: res.url, auth_id: user?.id! });
             } finally {
                 setIsUploading(false);
                 setFile(undefined);
@@ -63,14 +64,14 @@ export function CoverImage({ children }: CoverImageProps) {
     const handleAddLocalCover = useCallback(
         async (url: string) => {
             if (!pageId?.[0]) return;
+            coverImage.onReplace(url);
             setIsUploading(true);
+            setOpen(false);
 
             try {
                 await mutateAsync({ id: pageId[0], coverUrl: url });
-                coverImage.onReplace(url);
             } finally {
                 setIsUploading(false);
-                setOpen(false);
             }
         },
         [mutateAsync, pageId, coverImage]
@@ -80,14 +81,14 @@ export function CoverImage({ children }: CoverImageProps) {
     const handleRemoveCover = useCallback(async () => {
         try {
             setIsUploading(true);
+            coverImage.onReplace(" ");
+            setOpen(false);
             await mutateAsync({
                 id: pageId?.[0]!,
                 coverUrl: ""
             })
-            coverImage.onReplace("");
         } finally {
             setIsUploading(false);
-            setOpen(false);
         }
     }, [mutateAsync, pageId, coverImage])
 

@@ -5,9 +5,11 @@ import { PageType } from "@/types";
 import Image from "next/image";
 import { CoverImage } from "./cover-image";
 import { useUser } from "@clerk/nextjs";
+import { useCoverImage } from "@/hooks/use-cover-image";
 
 export default function NotoPageCover({ page }: { page: PageType }) {
     const { user } = useUser()
+    const coverImage = useCoverImage()
     return (
         <div className="w-full h-[30vh] overflow-hidden relative group">
             <div className="absolute top-5 right-32">
@@ -19,7 +21,7 @@ export default function NotoPageCover({ page }: { page: PageType }) {
                     }
                 </CoverImage>
             </div>
-            <Image src={page?.coverUrl!} alt="cover" priority width={1000} height={1000} className="w-full h-full object-cover object-center" />
+            <Image src={coverImage.url || page?.coverUrl!} alt="cover" priority width={1000} height={1000} className="w-full h-full object-cover object-center" />
         </div>
     )
 }

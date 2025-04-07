@@ -12,6 +12,7 @@ import { PageType } from "@/types";
 import { cn } from "@/lib/cn";
 import { addRandomEmoji, addRandomImage } from "@/lib/add-random-image";
 import { useUser } from "@clerk/nextjs";
+import { useIcon } from "@/hooks/use-icon";
 
 type NotoPageTitleEditorProps = {
   page: PageType;
@@ -22,6 +23,7 @@ type NotoPageTitleEditorProps = {
 export default function NotoPageTitleEditor({ page }: NotoPageTitleEditorProps) {
   const { mutateAsync } = useMutation({ mutationFn: updatePage });
   const { user } = useUser()
+  const icon = useIcon()
 
   const coverImage = useCoverImage();
   const setIsSaving = useIsSaving((state) => state.setIsSaving);
@@ -43,12 +45,14 @@ export default function NotoPageTitleEditor({ page }: NotoPageTitleEditorProps) 
   const updateRandomImage = async () => {
     if (!pageId) return;
     const url = addRandomImage();
-    await mutateAsync({ id: pageId, coverUrl: url });
     coverImage.onReplace(url);
+    await mutateAsync({ id: pageId, coverUrl: url });
   };
 
   const updateRandomIcon = () => {
-    setEmoji(addRandomEmoji());
+    const emoji = addRandomEmoji()
+    icon.setIcon(emoji, pageId!)
+    setEmoji(emoji);
   };
 
   useEffect(() => {
@@ -63,7 +67,7 @@ export default function NotoPageTitleEditor({ page }: NotoPageTitleEditorProps) 
     <div className={cn("group w-fit h-fit", page.coverUrl ? "mt-3" : "mt-7")}>
       {
         !page.isArchived && page.auth_id === user?.id && <div className="flex items-center opacity-0 group-hover:opacity-100 transition-all">
-          {!page.icon && (
+          {(icon.pageId === page.id && !icon.icon) || !page.icon && (
             <div onClick={updateRandomIcon} className="flex items-center w-fit py-1 px-2 cursor-pointer rounded-[6px] hover:bg-[#f3f3f3] transition-colors">
               <div>{icons.emoji}</div>
               <span className="text-[#9B9A97] text-[14px]">Add icon</span>

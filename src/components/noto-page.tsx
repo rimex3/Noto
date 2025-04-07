@@ -13,6 +13,7 @@ import { useMemo, useState } from "react"
 import { useMutation } from "@tanstack/react-query"
 import { createPageInside } from "@/actions"
 import { useUser } from "@clerk/nextjs"
+import { useIcon } from "@/hooks/use-icon"
 
 export interface NotoPageProps extends PageType {
   empty?: boolean
@@ -26,6 +27,7 @@ export default function NotoPage({ id, title, icon, children }: NotoPageProps) {
     mutationFn: createPageInside
   })
   const { user } = useUser()
+  const emoji = useIcon()
   const pathname = usePathname()
   const document = useDocuments()
   const currentTitle = document.id === id ? document.title : title
@@ -69,7 +71,7 @@ export default function NotoPage({ id, title, icon, children }: NotoPageProps) {
           <div className="flex items-center space-x-2">
             <div className="relative w-5 h-5 group">
               <div className="absolute inset-0 transition-opacity duration-200 group-hover:opacity-0 flex items-center justify-center">
-                {icon || icons.pageEmpty}
+                {(emoji.pageId === id && emoji.icon) || icon || icons.pageEmpty}
               </div>
 
               <div

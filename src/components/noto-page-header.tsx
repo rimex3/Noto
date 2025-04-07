@@ -10,6 +10,7 @@ import { updatePage } from "@/actions"
 import { useDocuments } from "@/hooks/use-documents"
 import { useUser } from "@clerk/nextjs"
 import PublishMenu from "./publish-menu"
+import { useIcon } from "@/hooks/use-icon"
 
 export default function NotoPageHeader({ page }: { page: PageType }) {
     const [isEditable, setIsEditable] = useState(false)
@@ -20,7 +21,7 @@ export default function NotoPageHeader({ page }: { page: PageType }) {
     })
 
     const { user } = useUser()
-
+    const emoji = useIcon()
 
     const document = useDocuments()
     const newTitle = page.id === document.id ? document.title : page.title
@@ -53,7 +54,7 @@ export default function NotoPageHeader({ page }: { page: PageType }) {
                             :
                             <div onClick={() => setIsEditable(true)} className="hover:bg-[#F0F0EF] transition-colors cursor-pointer rounded-[6px] w-fit max-w-[150px] truncate py-[2px] px-3 space-x-1 text-[15px]">
                                 <span>
-                                    {page.icon}
+                                    {(emoji.pageId === page.id && emoji.icon) || page.icon}
                                 </span>
                                 <span>
                                     {newTitle || "New page"}
@@ -62,7 +63,7 @@ export default function NotoPageHeader({ page }: { page: PageType }) {
                     }
                 </> : <div className="hover:bg-[#F0F0EF] transition-colors cursor-pointer rounded-[6px] w-fit max-w-[150px] truncate py-[2px] px-3 space-x-1 text-[15px]">
                     <span>
-                        {page.icon}
+                        {(emoji.pageId === page.id && emoji.icon) || page.icon}
                     </span>
                     <span>
                         {newTitle || "New page"}
