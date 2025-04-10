@@ -12,7 +12,7 @@ export default function Landing() {
             <div className="max-w-5xl mx-auto w-full min-h-[600px] flex items-center justify-between">
                 <div className="flex items-center justify-between w-full">
                     <div>
-                        <h1 className="tracking-tighter md:text-4xl text-3xl font-semibold mb-3 sm:text-7xl lg:text-6xl px-0">
+                        <h1 className=" md:text-4xl text-3xl font-bold mb-4 sm:text-7xl lg:text-6xl tracking-tighter ">
                             Meet <span className="underline">Noto</span>: Your Happy Place for Work
                         </h1>
 
@@ -37,14 +37,14 @@ export default function Landing() {
                         </SignedIn>
                     </div>
                     <div className="relative  max-w-full">
-                        {/* <img
+                        <img
                             src="/images/landing.avif"
                             alt="landing"
                             width={570}
                             height={530}
                             className="object-contain select-none w-full"
                             draggable={false}
-                        /> */}
+                        />
                     </div>
 
                 </div>
