@@ -37,13 +37,12 @@ export default function Landing() {
                             </Link>
                         </SignedIn>
                     </div>
-                    <div className="relative w-[500px] h-[500px] max-w-full">
+                    <div className="relative  max-w-full">
                         <Image
-                            src="/images/landing.webp"
+                            src="/images/landing.avif"
                             alt="landing"
-                            fill
-                            sizes="(max-width: 768px) 100vw, 500px"
-                            priority
+                            width={570}
+                            height={530}
                             className="object-contain select-none"
                             draggable={false}
                         />

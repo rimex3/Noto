@@ -1,4 +1,3 @@
-import { BlockType } from "@/components/noto-editor";
 import { create } from "zustand";
 
 interface UseIconProps {

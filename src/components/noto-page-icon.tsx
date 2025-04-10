@@ -2,7 +2,6 @@
 
 import { PageType } from "@/types"
 import IconPicker from "./icon-picker"
-import { useParams } from "next/navigation"
 import { useMutation } from "@tanstack/react-query"
 import { updatePage } from "@/actions"
 import { useCallback, useState } from "react"
