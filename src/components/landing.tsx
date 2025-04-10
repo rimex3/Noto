@@ -1,4 +1,3 @@
-import Image from "next/image";
 import LandingHeader from "./landing-header";
 import { SignedIn, SignedOut, SignUpButton } from "@clerk/nextjs";
 import { Button } from "./ui/button";
