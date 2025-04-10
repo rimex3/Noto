@@ -12,7 +12,7 @@ export default function Landing() {
             <div className="max-w-5xl mx-auto w-full min-h-[600px] flex items-center justify-between">
                 <div className="flex items-center justify-between w-full">
                     <div>
-                        <h1 className="text-5xl font-bold">
+                        <h1 className="tracking-tighter md:text-4xl text-3xl font-semibold mb-3 sm:text-7xl lg:text-6xl px-0">
                             Meet <span className="underline">Noto</span>: Your Happy Place for Work
                         </h1>
 
