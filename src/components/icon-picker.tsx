@@ -64,7 +64,6 @@ const IconPicker = memo(({ children, onEmojiChange, asChild, open, onOpen }: Ico
                 </div>
                 <Picker data={data} previewPosition={"none"} theme={"light"} onEmojiSelect={(emoji: any) => {
                     onEmojiChange(emoji.native)
-                    onOpen?.()
                 }} className={"!h-[100px]"} />
             </PopoverContent>
         </Popover>

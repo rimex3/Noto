@@ -25,12 +25,12 @@ export default function NotoPageIcon({ page }: NotoPageIconProps) {
 
     const handleUpdateIcon = useCallback(async (icon: string) => {
         emoji.setIcon(icon, page.id!)
+        setOpen(false)
         await mutateAsync({
             id: page.id!,
             icon,
             auth_id: user?.id
         })
-        setOpen(false)
     }, [mutateAsync, user?.id])
 
     return (
