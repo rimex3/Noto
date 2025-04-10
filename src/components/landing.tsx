@@ -38,12 +38,12 @@ export default function Landing() {
                         </SignedIn>
                     </div>
                     <div className="relative  max-w-full">
-                        <Image
+                        <img
                             src="/images/landing.avif"
                             alt="landing"
                             width={570}
                             height={530}
-                            className="object-contain select-none"
+                            className="object-contain select-none w-full"
                             draggable={false}
                         />
                     </div>
