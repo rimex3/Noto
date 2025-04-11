@@ -6,7 +6,7 @@ import { db } from "@/db"
 import { pagesTable } from "@/db/schema"
 import { type PageType } from "@/types"
 import { and, eq } from "drizzle-orm";
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 
 
 export const createPage = async ({ title, content, type, auth_id, id, currentPageId }: PageType & { currentPageId?: string }) => {
@@ -15,6 +15,8 @@ export const createPage = async ({ title, content, type, auth_id, id, currentPag
             .insert(pagesTable)
             .values({ id: id!, auth_id: auth_id!, title: title!, content, type })
             .returning();
+
+        revalidateTag(`page-${id}`);
 
         if (currentPageId || id) revalidatePath(`/pages/${currentPageId}`);
 
@@ -51,7 +53,8 @@ export const updatePage = async ({ id, title, content, currentPageId, coverUrl, 
             .where(and(eq(pagesTable.id, id), auth_id ? eq(pagesTable.auth_id, auth_id) : undefined))
             .returning({ id: pagesTable.id });
 
-        revalidatePath("/pages");
+        revalidateTag(`pages`)
+        revalidateTag(`page-${id}`)
         if (currentPageId) revalidatePath(`/pages/${currentPageId}`);
 
         return { id: data[0].id };
@@ -77,8 +80,8 @@ export const deletePage = async ({ id }: { id: string }) => {
 
         await db.delete(pagesTable).where(eq(pagesTable.id, id));
 
-        revalidatePath("/pages");
-        revalidatePath(`/pages/${id}`);
+        revalidateTag(`page-${id}`);
+        revalidateTag(`pages`);
 
     } catch (err: any) {
         throw new Error(err);
@@ -96,6 +99,7 @@ export const moveToPage = async ({ id, pageId }: { id: string, pageId: string })
             .returning({ id: pagesTable.id });
 
         revalidatePath("/pages");
+        revalidateTag(`page-${id}`);
 
         return { id: data[0].id };
     } catch (err: any) {
@@ -114,8 +118,8 @@ export const createPageInside = async ({ parentId, auth_id }: { parentId: string
             })
             .returning({ id: pagesTable.id });
 
-        revalidatePath("/pages");
-        revalidatePath(`/pages/${parentId}`);
+        revalidateTag(`page-${parentId}`);
+        revalidateTag(`pages`);
     } catch (err: any) {
         throw new Error(err);
     }
