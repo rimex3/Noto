@@ -10,8 +10,8 @@ export default function Landing() {
         <section className="min-h-screen">
             <LandingHeader />
             <div className="max-w-5xl mx-auto w-full min-h-[600px] flex items-center justify-between">
-                <div className="flex items-center justify-between w-full">
-                    <div>
+                <div className="flex items-center justify-between w-full max-lg:flex-col-reverse px-4">
+                    <div className="max-lg:text-center">
                         <h1 className=" md:text-4xl text-3xl font-bold mb-4 sm:text-7xl lg:text-6xl tracking-tighter ">
                             Meet <span className="underline">Noto</span>: Your Happy Place for Work
                         </h1>

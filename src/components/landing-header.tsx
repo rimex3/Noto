@@ -17,7 +17,7 @@ export default function LandingHeader() {
             <div>
                 <SignedOut>
                     <SignInButton mode="modal" fallbackRedirectUrl={"/pages"}>
-                        <Button className="cursor-pointer mr-2 h-[30px] rounded-[5px]" variant="ghost">
+                        <Button className="cursor-pointer mr-2 h-[30px] rounded-[5px] " variant="ghost">
                             Log in
                         </Button>
                     </SignInButton>
@@ -31,7 +31,7 @@ export default function LandingHeader() {
 
                 <SignedIn>
                     <Link href="/pages" replace>
-                        <Button className="cursor-pointer mr-2 h-[30px] rounded-[5px]" variant="ghost">
+                        <Button className="cursor-pointer mr-2 h-[30px] rounded-[5px] max-sm:hidden" variant="ghost">
                             Log in
                         </Button>
                     </Link>
