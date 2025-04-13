@@ -16,8 +16,7 @@ export const createPage = async ({ title, content, type, auth_id, id, currentPag
             .values({ id: id!, auth_id: auth_id!, title: title!, content, type })
             .returning();
 
-        revalidateTag(`page-${id}`);
-
+        revalidatePath(`/pages`);
         if (currentPageId || id) revalidatePath(`/pages/${currentPageId}`);
 
         return data[0];
@@ -53,8 +52,7 @@ export const updatePage = async ({ id, title, content, currentPageId, coverUrl, 
             .where(and(eq(pagesTable.id, id), auth_id ? eq(pagesTable.auth_id, auth_id) : undefined))
             .returning({ id: pagesTable.id });
 
-        revalidateTag(`pages`)
-        revalidateTag(`page-${id}`)
+        revalidatePath(`/pages`)
         if (currentPageId) revalidatePath(`/pages/${currentPageId}`);
 
         return { id: data[0].id };
@@ -80,8 +78,8 @@ export const deletePage = async ({ id }: { id: string }) => {
 
         await db.delete(pagesTable).where(eq(pagesTable.id, id));
 
-        revalidateTag(`page-${id}`);
-        revalidateTag(`pages`);
+        revalidatePath(`/pages/${id}`);
+        revalidatePath(`/pages`);
 
     } catch (err: any) {
         throw new Error(err);
@@ -99,7 +97,7 @@ export const moveToPage = async ({ id, pageId }: { id: string, pageId: string })
             .returning({ id: pagesTable.id });
 
         revalidatePath("/pages");
-        revalidateTag(`page-${id}`);
+        revalidatePath(`/pages/${id}`);
 
         return { id: data[0].id };
     } catch (err: any) {
@@ -118,8 +116,8 @@ export const createPageInside = async ({ parentId, auth_id }: { parentId: string
             })
             .returning({ id: pagesTable.id });
 
-        revalidateTag(`page-${parentId}`);
-        revalidateTag(`pages`);
+        revalidatePath(`/pages/${parentId}`);
+        revalidatePath(`pages`);
     } catch (err: any) {
         throw new Error(err);
     }

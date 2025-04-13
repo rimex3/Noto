@@ -1,11 +1,9 @@
-'use cache'
 
 import { db } from "@/db";
 import { cache } from "react";
 import { unstable_cacheTag as cacheTag } from "next/cache"
 
 export const getPageById = cache(async (pageId: string, userId: string) => {
-    cacheTag(`page-${pageId}`)
     return await db.query.pagesTable.findFirst({
         where: (pages, { eq, and }) => and(
             eq(pages.id, pageId),
@@ -17,7 +15,6 @@ export const getPageById = cache(async (pageId: string, userId: string) => {
 
 
 export const getPublicPageById = cache(async (pageId: string) => {
-    cacheTag(`page-${pageId}`)
     return await db.query.pagesTable.findFirst({
         where: (pages, { eq, and }) => and(
             eq(pages.id, pageId),

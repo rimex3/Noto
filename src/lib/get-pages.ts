@@ -1,11 +1,9 @@
-'use cache'
 import { db } from "@/db"
 import { and } from "drizzle-orm";
 import { unstable_cacheTag as cacheTag } from "next/cache";
 import { cache } from "react"
 
 export const getRootPages = cache(async (userId: string) => {
-    cacheTag(`pages`)
     const pages = await db.query.pagesTable.findMany({
         where: (pages, { eq, and, isNull }) =>
             and(
@@ -55,7 +53,6 @@ export const getRootPages = cache(async (userId: string) => {
 
 
 export const getChildPages = cache(async (userId: string) => {
-    cacheTag(`child-pages`)
     return await db.query.pagesTable.findMany({
         where: (pages, { eq, and, not, isNull }) =>
             and(
@@ -69,7 +66,6 @@ export const getChildPages = cache(async (userId: string) => {
 
 
 export const getFirstPage = cache(async (userId: string) => {
-    cacheTag(`first-page`)
     return await db.query.pagesTable.findFirst({
         where: (pages, { eq, and, or, isNull }) => and(
             eq(pages.auth_id, userId),
