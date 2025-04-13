@@ -6,7 +6,7 @@ import { db } from "@/db"
 import { pagesTable } from "@/db/schema"
 import { type PageType } from "@/types"
 import { and, eq } from "drizzle-orm";
-import { revalidatePath, revalidateTag } from "next/cache";
+import { revalidatePath } from "next/cache";
 
 
 export const createPage = async ({ title, content, type, auth_id, id, currentPageId }: PageType & { currentPageId?: string }) => {

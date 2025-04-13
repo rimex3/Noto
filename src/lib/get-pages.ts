@@ -1,6 +1,5 @@
 import { db } from "@/db"
 import { and } from "drizzle-orm";
-import { unstable_cacheTag as cacheTag } from "next/cache";
 import { cache } from "react"
 
 export const getRootPages = cache(async (userId: string) => {
